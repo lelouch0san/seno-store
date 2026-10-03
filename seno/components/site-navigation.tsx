@@ -7,11 +7,11 @@ import { routes } from '@/lib/routes'
 import { useFrontendAuth } from '@/components/frontend-auth-provider'
 
 const items = [
-  { label: 'الرئيسية', href: routes.home, icon: Home },
-  { label: 'المتجر', href: routes.store, icon: Store },
-  { label: 'طلباتي', href: routes.orders, icon: ClipboardList },
-  { label: 'المحفظة', href: routes.wallet, icon: Wallet },
-  { label: 'حسابي', href: routes.profile, icon: UserRound },
+  { label: 'الرئيسية', href: routes.home, icon: Home, iconPath: '/icons/home.png' },
+  { label: 'المتجر', href: routes.store, icon: Store, iconPath: '/icons/store.png' },
+  { label: 'طلباتي', href: routes.orders, icon: ClipboardList, iconPath: '/icons/orders.png' },
+  { label: 'المحفظة', href: routes.wallet, icon: Wallet, iconPath: '/icons/wallet.png' },
+  { label: 'حسابي', href: routes.profile, icon: UserRound, iconPath: '/icons/profile.png' },
 ]
 
 const menuItems = [
@@ -30,7 +30,7 @@ function isActive(pathname: string, href: string) {
 export function BottomNavigation() {
   const pathname = usePathname()
   return <nav className="fixed bottom-0 left-1/2 z-30 flex w-full max-w-5xl -translate-x-1/2 items-center justify-around rounded-t-[2rem] border-t-2 border-red-500 bg-zinc-950/95 px-2 py-3 backdrop-blur-xl lg:hidden" dir="rtl">
-    {items.map(({ label, href, icon: Icon }) => <Link href={href} key={label} className={`flex min-w-14 flex-col items-center gap-1 text-xs ${isActive(pathname, href) ? 'text-red-500 drop-shadow-[0_0_10px_rgba(255,0,30,.8)]' : 'text-zinc-300'}`}><Icon className="size-7" /><span className="font-bold">{label}</span></Link>)}
+    {items.map(({ label, href, iconPath }) => <Link href={href} key={label} className={`flex min-w-14 flex-col items-center gap-1 text-xs ${isActive(pathname, href) ? 'text-red-500 drop-shadow-[0_0_10px_rgba(255,0,30,.8)]' : 'text-zinc-300'}`}><img src={iconPath} alt="" aria-hidden="true" className="size-8 object-contain" /><span className="font-bold">{label}</span></Link>)}
   </nav>
 }
 
