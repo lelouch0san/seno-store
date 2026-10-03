@@ -2,12 +2,28 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useState } from 'react'
-import { Gamepad2, Gift, Home, LogIn, Mail, Menu, Mic2, Package, Store, UserRound, Wallet, X, Zap, LogOut } from 'lucide-react'
+import { createContext, useContext, useState } from 'react'
+import { Bell, Gamepad2, Gift, Home, LogIn, Mail, Menu, Mic2, Package, Store, UserRound, Wallet, X, Zap, LogOut } from 'lucide-react'
 import { useFrontendAuth } from '@/components/frontend-auth-provider'
 import { routes } from '@/lib/routes'
 import { SenoLogo } from '@/components/branding/seno-logo'
 import { CompactLevelBadge } from '@/components/loyalty/seno-level-card'
+
+const SidebarContext = createContext<{ open: boolean; setOpen: (open: boolean) => void }>({ open: false, setOpen: () => {} })
+
+export function SidebarProvider({ children }: { children: React.ReactNode }) {
+  const [open, setOpen] = useState(false)
+  return <SidebarContext.Provider value={{ open, setOpen }}>{children}</SidebarContext.Provider>
+}
+
+export function SidebarTrigger() {
+  const { setOpen } = useContext(SidebarContext)
+  return <button type="button" onClick={() => setOpen(true)} aria-label="فتح القائمة" className="grid size-11 place-items-center rounded-xl border border-white/10 bg-zinc-950/90 text-amber-300 backdrop-blur"><MenuIcon /></button>
+}
+
+function MenuIcon() {
+  return <Menu aria-hidden="true" />
+}
 
 const publicItems = [
   { label: 'الرئيسية', href: routes.home, icon: Home },
@@ -22,6 +38,7 @@ const accountItems = [
   { label: 'المحفظة', href: routes.wallet, icon: Wallet },
   { label: 'طلباتي', href: routes.orders, icon: Package },
   { label: 'حسابي', href: routes.profile, icon: UserRound },
+  { label: 'الإشعارات', href: '/notifications', icon: Bell },
 ]
 
 type NavItem = (typeof publicItems)[number] | (typeof accountItems)[number]
@@ -37,7 +54,7 @@ function NavLink({ item, pathname, onClick }: { item: NavItem; pathname: string;
 
 export function GlobalSidebar() {
   const pathname = usePathname()
-  const [open, setOpen] = useState(false)
+  const { open, setOpen } = useContext(SidebarContext)
   const { user, isAuthenticated, signOut } = useFrontendAuth()
   const close = () => setOpen(false)
   const content = <aside className="flex h-full w-72 flex-col border-l border-white/10 bg-[#080809] p-5 shadow-[0_0_45px_rgba(0,0,0,.45)]" dir="rtl">

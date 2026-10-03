@@ -2,8 +2,9 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Bell, ChevronDown, ChevronLeft, CircleUserRound, ClipboardList, Gamepad2, Gift, Home, Menu, MoreHorizontal, Search, ShoppingCart, Smartphone, Store, Wallet, X } from 'lucide-react'
+import { ChevronDown, ChevronLeft, CircleUserRound, Gamepad2, Gift, MoreHorizontal, Search, ShoppingCart, Smartphone, Store, Wallet } from 'lucide-react'
 import { SenoLogo } from '@/components/branding/seno-logo'
+import { SidebarTrigger } from '@/components/global-sidebar'
 
 const artwork = 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/file_0000000015f4820aad3a7637b56e3f84-WGC1XKchVlp1uO7orecqwKhbJ0S36M.png'
 
@@ -30,7 +31,7 @@ const products = [
 ]
 
 function Header({ onMenu }: { onMenu: () => void }) {
-  return <header className="flex flex-col gap-6 pt-5 sm:pt-8"><div className="flex items-center justify-between gap-3" dir="ltr"><SenoLogo className="w-40" /><div className="flex items-center gap-2 sm:gap-5"><div className="hidden items-center gap-3 rounded-full border border-red-500/60 bg-white/[0.04] px-5 py-3 text-lg sm:flex"><Wallet className="text-amber-300" />500.00 EGP<ChevronDown className="size-4 text-amber-400" /></div><button aria-label="الإشعارات" className="relative p-2 text-amber-300"><Bell /><i className="absolute right-1 top-1 size-2.5 rounded-full bg-red-500" /></button><button aria-label="الحساب" className="grid size-11 place-items-center rounded-full border border-amber-400 bg-zinc-900"><CircleUserRound className="text-amber-200" /></button></div></div><label className="flex h-16 items-center gap-4 rounded-full border border-white/35 bg-white/[0.045] px-6 text-zinc-400" dir="rtl"><input aria-label="البحث" className="min-w-0 flex-1 bg-transparent text-base text-white outline-none placeholder:text-zinc-400 sm:text-lg" placeholder="إبحث عن لعبة أو تطبيق أو بطاقة رقمية..." /><Search className="size-7 shrink-0" /></label></header>
+  return <header className="flex flex-col gap-6 pt-5 sm:pt-8"><div className="flex items-center justify-between gap-3" dir="ltr"><SenoLogo className="w-40" /><div className="flex items-center gap-2 sm:gap-5"><div className="hidden items-center gap-3 rounded-full border border-red-500/60 bg-white/[0.04] px-5 py-3 text-lg sm:flex"><Wallet className="text-amber-300" />500.00 EGP<ChevronDown className="size-4 text-amber-400" /></div><SidebarTrigger /><button aria-label="الحساب" className="grid size-11 place-items-center rounded-full border border-amber-400 bg-zinc-900"><CircleUserRound className="text-amber-200" /></button></div></div><label className="flex h-16 items-center gap-4 rounded-full border border-white/35 bg-white/[0.045] px-6 text-zinc-400" dir="rtl"><input aria-label="البحث" className="min-w-0 flex-1 bg-transparent text-base text-white outline-none placeholder:text-zinc-400 sm:text-lg" placeholder="إبحث عن لعبة أو تطبيق أو بطاقة رقمية..." /><Search className="size-7 shrink-0" /></label></header>
 }
 
 function CategoryTabs() {
