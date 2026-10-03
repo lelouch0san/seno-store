@@ -1,0 +1,5 @@
+import Link from 'next/link'
+import { ChevronLeft, Coins } from 'lucide-react'
+import type { Game } from '@/lib/game-data'
+
+export function GamePackageList({ game }: { game: Game }) { return <section><h2 className="mb-4 text-2xl font-black">الباقات المتاحة</h2><div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{game.packages.map((item) => <article key={item.id} className="rounded-3xl border border-white/10 bg-[#090d10] p-5 transition hover:border-amber-400/70 hover:shadow-[0_0_22px_rgba(245,158,11,.12)]"><Coins className="size-8 text-amber-300" /><p className="mt-5 text-3xl font-black">{item.amount.toLocaleString('en-US')}</p><p className="text-zinc-400">{item.unit}</p><p className="mt-4 text-xl font-bold text-amber-300">{item.price.toFixed(2)} USD</p><Link href={`/store/games/${game.id}/topup?package=${item.id}`} className="mt-5 flex w-full items-center justify-center rounded-2xl bg-red-600 px-4 py-3 text-sm font-bold">اختيار الباقة <ChevronLeft className="mr-2 size-4" /></Link></article>)}</div></section> }
