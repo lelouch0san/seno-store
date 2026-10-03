@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import { Bell, ChevronLeft, CircleUserRound, Gamepad2, Gift, Home, Menu, Mic2, Search, Store, Wallet, Zap } from 'lucide-react'
+import { ChevronLeft, CircleUserRound, Gamepad2, Gift, Home, Menu, Mic2, Search, Store, Wallet, Zap } from 'lucide-react'
 import { SenoLogo } from '@/components/branding/seno-logo'
 import { SidebarTrigger } from '@/components/global-sidebar'
 
@@ -32,8 +32,7 @@ function HomeHeader({ onMenu }: { onMenu: () => void }) {
     </Link>
     <div className="flex items-center gap-2">
       <Link href="/wallet" className="flex items-center gap-2 rounded-full border border-amber-400/50 bg-white/[.035] px-3 py-2 text-sm text-white sm:px-4"><Wallet className="size-4 text-amber-300" /> <span>500.00 EGP</span></Link>
-      <button aria-label="الإشعارات" className="relative grid size-10 place-items-center rounded-full border border-white/10 text-amber-200"><Bell className="size-5" /><i className="absolute right-1 top-1 size-2 rounded-full bg-red-500" /></button>
-      <SidebarTrigger />
+          <SidebarTrigger />
     </div>
   </header>
 }
