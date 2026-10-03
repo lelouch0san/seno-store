@@ -7,6 +7,7 @@ import { Bell, ChevronLeft, ClipboardList, Globe2, Mail, Phone, ShieldCheck, Use
 import { routes } from '@/lib/routes'
 import { SenoLogo } from '@/components/branding/seno-logo'
 import { mockProfile, type Profile, type Currency, roleLabel } from '@/lib/mock-profile'
+import { SenoLevelCard } from '@/components/loyalty/seno-level-card'
 
 type ProfileState = 'loading' | 'guest' | 'authenticated' | 'offline'
 
@@ -75,6 +76,7 @@ function AuthenticatedProfile({ profile }: { profile: Profile }) {
           <Link href={routes.completeProfile} className="rounded-xl border border-red-500/60 px-4 py-3 text-center font-bold text-red-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-300">تعديل الملف الشخصي</Link>
         </div>
       </section>
+      <SenoLevelCard totalSpentUSD={0} lifetimeOrders={0} />
       <section className="rounded-3xl border border-amber-400/30 bg-gradient-to-br from-[#181006] to-[#090d10] p-5 shadow-[0_0_25px_rgba(245,158,11,.1)] sm:p-6"><div className="flex items-center justify-between gap-4"><div><p className="text-sm text-zinc-400">رصيد المحفظة</p><p className="mt-2 text-3xl font-black text-amber-300">{profile.balance.toFixed(2)} {profile.preferredCurrency}</p></div><Wallet className="size-10 text-amber-300" aria-hidden="true" /></div><Link href={routes.wallet} className="mt-5 inline-flex rounded-xl bg-red-600 px-5 py-3 font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-300">إضافة رصيد</Link></section>
       <section className="rounded-3xl border border-white/10 bg-[#090d10] p-5 sm:p-6"><h2 className="text-xl font-black">بيانات الحساب</h2><div className="mt-5 grid gap-3 sm:grid-cols-2">{[["الاسم الأول", 'أحمد'], ['اسم العائلة', 'محمد'], ['رقم الهاتف', profile.phone], ['الدولة', profile.country], ['العملة المفضلة', profile.preferredCurrency], ['البريد الإلكتروني', profile.email]].map(([label, value]) => <div key={label} className="rounded-2xl border border-white/10 bg-black/20 p-4"><p className="text-sm text-zinc-500">{label}</p><p className="mt-2 font-bold">{value}</p></div>)}</div></section>
       <section className="rounded-3xl border border-white/10 bg-[#090d10] p-5 sm:p-6"><h2 className="text-xl font-black">اختصارات الحساب</h2><div className="mt-4 grid gap-3 sm:grid-cols-2">{quickActions.map(({ label, description, href, icon: Icon }) => <Link href={href} key={label} className="flex items-center gap-3 rounded-2xl border border-white/10 bg-black/20 p-4 transition hover:border-red-500/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-300"><Icon className="size-6 text-amber-300" aria-hidden="true" /><span className="min-w-0 flex-1"><b className="block">{label}</b><small className="mt-1 block text-zinc-500">{description}</small></span><ChevronLeft className="size-4 text-zinc-500" aria-hidden="true" /></Link>)}</div></section>
