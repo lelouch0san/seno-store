@@ -2,20 +2,20 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import { ChevronLeft, CircleUserRound, Gamepad2, Gift, Home, Menu, Mic2, Search, Store, Wallet, Zap } from 'lucide-react'
+import { ChevronLeft, CircleUserRound, Home, Menu, Search, Store, Wallet } from 'lucide-react'
 import { SenoLogo } from '@/components/branding/seno-logo'
 import { SidebarTrigger } from '@/components/global-sidebar'
 
 const heroImage = 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/file_000000000ad4820abc10f3931c57ed2e-78YYVVT1FDlr4sxreXzsP79byxbL4Z.png'
 
-type Category = { label: string; href: string; icon: typeof Gamepad2; accent: string }
+type Category = { label: string; href: string; image: string; accent: string }
 type Product = { name: string; slug: string; mark: string; tone: string }
 
 const categories: Category[] = [
-  { label: 'شحن الألعاب', href: '/store/games', icon: Gamepad2, accent: 'border-red-500/80 text-red-300' },
-  { label: 'تطبيقات الصوت', href: '/store/apps', icon: Mic2, accent: 'border-blue-500/80 text-blue-300' },
-  { label: 'البطاقات الرقمية', href: '/store/gift-cards', icon: Gift, accent: 'border-fuchsia-500/80 text-fuchsia-300' },
-  { label: 'خدمات أخرى', href: '/store/services', icon: Zap, accent: 'border-amber-400/80 text-amber-300' },
+  { label: 'شحن الألعاب', href: '/store/games', image: '/images/category-games.png', accent: 'border-red-500/80' },
+  { label: 'تطبيقات الصوت', href: '/store/apps', image: '/images/category-apps.png', accent: 'border-blue-500/80' },
+  { label: 'البطاقات الرقمية', href: '/store/gift-cards', image: '/images/category-gift-cards.png', accent: 'border-fuchsia-500/80' },
+  { label: 'خدمات أخرى', href: '/store/services', image: '/images/category-services.png', accent: 'border-amber-400/80' },
 ]
 
 const products: Product[] = [
@@ -48,7 +48,7 @@ function Hero() {
 }
 
 function Categories() {
-  return <section dir="rtl"><div className="mb-4 flex items-center justify-between"><h2 className="text-xl font-black text-white sm:text-2xl">الأقسام</h2><Link href="/store" className="text-sm font-bold text-red-400">عرض الكل</Link></div><div className="grid grid-cols-2 gap-3 sm:grid-cols-4">{categories.map(({ label, href, icon: Icon, accent }) => <Link href={href} key={href} className={`flex min-h-32 flex-col items-center justify-center gap-4 rounded-2xl border bg-white/[.02] p-3 text-center transition hover:-translate-y-0.5 hover:bg-white/[.05] ${accent}`}><Icon className="size-10" strokeWidth={1.6} /><span className="text-sm font-bold text-white">{label}</span></Link>)}</div></section>
+  return <section dir="rtl"><div className="mb-4 flex items-center justify-between"><h2 className="text-xl font-black text-white sm:text-2xl">الأقسام</h2><Link href="/store" className="text-sm font-bold text-red-400">عرض الكل</Link></div><div className="grid grid-cols-2 gap-3 sm:grid-cols-4">{categories.map(({ label, href, image, accent }) => <Link href={href} key={href} className={`group relative isolate flex min-h-32 overflow-hidden rounded-2xl border bg-black text-center transition hover:-translate-y-0.5 ${accent}`}><img src={image} alt="" aria-hidden="true" className="absolute inset-0 size-full object-cover object-center opacity-75 transition duration-300 group-hover:scale-105 group-hover:opacity-90" /><span className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-black/10" /><span className="relative mt-auto w-full p-3 text-sm font-bold text-white drop-shadow-[0_2px_8px_rgba(0,0,0,.9)]">{label}</span></Link>)}</div></section>
 }
 
 function ProductCard({ product }: { product: Product }) {
