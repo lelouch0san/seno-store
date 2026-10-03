@@ -5,7 +5,7 @@ export default function StoreLayout({ children }: Readonly<{ children: React.Rea
   return (
     <SidebarProvider>
       <div className="min-h-screen lg:mr-72">
-        <GlobalSidebar />
+        <GlobalSidebar showTrigger={false} />
         <div className="pb-20 lg:pb-28">{children}</div>
         <BottomNavigation />
       </div>
