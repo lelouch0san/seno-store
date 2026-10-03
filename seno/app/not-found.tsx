@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { SenoLogo } from '@/components/branding/seno-logo'
+import { ArrowRight, Store } from 'lucide-react'
 
 export default function NotFound() {
   return (
@@ -8,7 +9,11 @@ export default function NotFound() {
         <SenoLogo className="w-52" />
         <p className="text-sm text-amber-300">404</p>
         <h1 className="text-2xl font-black">الصفحة غير موجودة</h1>
-        <Link href="/" className="rounded-xl bg-red-600 px-6 py-3 font-bold">العودة للرئيسية</Link>
+        <p className="max-w-sm leading-7 text-zinc-400">الصفحة التي تبحث عنها غير موجودة أو ربما تم نقلها.</p>
+        <div className="flex flex-wrap justify-center gap-3">
+          <Link href="/" className="inline-flex items-center gap-2 rounded-xl bg-red-600 px-6 py-3 font-bold"><ArrowRight className="size-4" aria-hidden="true" />العودة للرئيسية</Link>
+          <Link href="/store" className="inline-flex items-center gap-2 rounded-xl border border-amber-400/50 px-6 py-3 font-bold text-amber-200"><Store className="size-4" aria-hidden="true" />الذهاب للمتجر</Link>
+        </div>
       </div>
     </main>
   )
