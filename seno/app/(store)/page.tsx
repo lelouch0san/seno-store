@@ -13,7 +13,7 @@ const heroSlides = [
   { image: '/images/hero/hero-games.png', alt: 'ألعاب وشخصيات وبطاقات ألعاب من SENO STORE', position: 'center 22%' },
 ]
 
-type Category = { label: string; href: string; image: string; accent: string }
+type Category = { label: string; description?: string; href: string; image: string; accent: string }
 type Product = (typeof storeProducts)[number] & { mark: string; tone: string }
 
 const categories: Category[] = [
@@ -21,6 +21,11 @@ const categories: Category[] = [
   { label: 'تطبيقات الصوت', href: '/store/apps', image: '/images/category-apps.png', accent: 'border-blue-500/80' },
   { label: 'البطاقات الرقمية', href: '/store/gift-cards', image: '/images/category-gift-cards.png', accent: 'border-fuchsia-500/80' },
   { label: 'خدمات أخرى', href: '/store/services', image: '/images/category-services.png', accent: 'border-amber-400/80' },
+  { label: 'سحب الأموال', description: 'خدمات سحب وتحويل الأموال', href: '/store/services?category=money-withdrawal', image: '/images/category-money-withdrawal.png', accent: 'border-emerald-400/80' },
+  { label: 'التسوق', description: 'منتجات وخدمات التسوق الرقمية', href: '/store/services?category=shopping', image: '/images/category-shopping.png', accent: 'border-orange-400/80' },
+  { label: 'الاشتراكات', description: 'اشتراكاتك المفضلة', href: '/store/services?category=subscriptions', image: '/images/category-subscriptions.png', accent: 'border-violet-400/80' },
+  { label: 'العملات الرقمية', description: 'شراء وبيع العملات الرقمية', href: '/store/services?category=crypto', image: '/images/category-crypto.png', accent: 'border-cyan-400/80' },
+  { label: 'لوت يوزرات', description: 'يوزرات ومنتجات رقمية', href: '/store/services?category=username-lots', image: '/images/category-username-lots.png', accent: 'border-rose-400/80' },
 ]
 
 const productVisuals: Record<string, { mark: string; tone: string }> = {
@@ -77,8 +82,15 @@ function Hero() {
   </section>
 }
 
+const announcements = ['عروض حصرية وأسعار تنافسية', 'شحن فوري وآمن', 'منتجات رقمية متنوعة', 'طرق دفع متعددة', 'معاملات آمنة وسريعة', 'خدمة سريعة على مدار الساعة']
+
+function AnnouncementTicker() {
+  const items = [...announcements, ...announcements]
+  return <section className="overflow-hidden rounded-2xl border border-red-500/30 bg-gradient-to-l from-red-950/40 via-black to-amber-950/20 py-2.5 shadow-[0_0_20px_rgba(239,68,68,.08)]" dir="rtl" aria-label="إعلانات SENO STORE"><div className="flex w-max animate-[ticker_28s_linear_infinite] items-center gap-8 whitespace-nowrap px-4 text-xs font-bold text-zinc-200 sm:text-sm">{items.map((message, index) => <span key={`${message}-${index}`} className="flex items-center gap-2"><span className="size-1.5 rounded-full bg-amber-300 shadow-[0_0_8px_rgba(253,224,71,.8)]" />{message}</span>)}</div><style jsx>{`@keyframes ticker { from { transform: translateX(0); } to { transform: translateX(50%); } } @media (prefers-reduced-motion: reduce) { div { animation-play-state: paused; } }`}</style></section>
+}
+
 function Categories() {
-  return <section dir="rtl"><div className="mb-4 flex items-center justify-between"><h2 className="text-xl font-black text-white sm:text-2xl">الأقسام</h2><Link href="/store" className="text-sm font-bold text-red-400">عرض الكل</Link></div><div className="grid grid-cols-2 gap-3 sm:grid-cols-4">{categories.map(({ label, href, image, accent }) => <Link href={href} key={href} className={`group relative isolate flex min-h-32 overflow-hidden rounded-2xl border bg-black text-center transition hover:-translate-y-0.5 ${accent}`}><img src={image} alt="" aria-hidden="true" className="absolute inset-0 size-full object-cover object-center opacity-75 transition duration-300 group-hover:scale-105 group-hover:opacity-90" /><span className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-black/10" /><span className="relative mt-auto w-full p-3 text-sm font-bold text-white drop-shadow-[0_2px_8px_rgba(0,0,0,.9)]">{label}</span></Link>)}</div></section>
+  return <section dir="rtl"><div className="mb-4"><h2 className="text-xl font-black text-white sm:text-2xl">استكشف الأقسام</h2><p className="mt-1 text-sm text-zinc-400">كل ما تحتاجه في مكان واحد</p></div><div className="grid grid-cols-2 gap-3 sm:grid-cols-4">{categories.map(({ label, description, href, image, accent }) => <Link href={href} key={href} className={`group relative isolate flex min-h-36 overflow-hidden rounded-2xl border bg-black text-center transition hover:-translate-y-0.5 ${accent}`}><img src={image} alt="" aria-hidden="true" loading="lazy" className="absolute inset-0 size-full object-cover object-center opacity-75 transition duration-300 group-hover:scale-105 group-hover:opacity-90" /><span className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/35 to-black/5" /><span className="relative mt-auto w-full p-3"><strong className="block text-sm font-bold text-white drop-shadow-[0_2px_8px_rgba(0,0,0,.9)]">{label}</strong>{description && <small className="mt-1 block text-[10px] leading-4 text-zinc-300">{description}</small>}</span></Link>)}</div></section>
 }
 
 function ProductCard({ product }: { product: Product }) {
@@ -88,5 +100,5 @@ function ProductCard({ product }: { product: Product }) {
 
 
 export default function Page() {
-  return <main className="min-h-screen bg-[#050506] pb-24 text-white" dir="rtl"><div className="mx-auto max-w-5xl px-4 sm:px-6"><HomeHeader onMenu={() => {}} /><div className="flex flex-col gap-8 pb-8"><Hero /><label className="flex h-14 items-center gap-3 rounded-full border border-white/15 bg-white/[.035] px-5 text-zinc-400" aria-label="البحث عن منتج أو فئة"><Search className="size-6 shrink-0" /><input className="min-w-0 flex-1 bg-transparent text-sm text-white outline-none placeholder:text-zinc-500" placeholder="ابحث عن منتج أو فئة..." /></label><Categories /><section dir="rtl"><div className="mb-4 flex items-center justify-between"><h2 className="flex items-center gap-2 text-xl font-black text-white sm:text-2xl">أشهر المنتجات <span className="text-red-500">♨</span></h2><Link href="/store" className="text-sm font-bold text-red-400">عرض الكل</Link></div><div className="grid grid-cols-2 gap-3 sm:grid-cols-4">{products.map((product) => <ProductCard key={product.slug} product={product} />)}</div></section></div></div></main>
+  return <main className="min-h-screen bg-[#050506] pb-24 text-white" dir="rtl"><div className="mx-auto max-w-5xl px-4 sm:px-6"><HomeHeader onMenu={() => {}} /><div className="flex flex-col gap-8 pb-8"><Hero /><AnnouncementTicker /><label className="flex h-14 items-center gap-3 rounded-full border border-white/15 bg-white/[.035] px-5 text-zinc-400" aria-label="البحث عن منتج أو فئة"><Search className="size-6 shrink-0" /><input className="min-w-0 flex-1 bg-transparent text-sm text-white outline-none placeholder:text-zinc-500" placeholder="ابحث عن منتج أو فئة..." /></label><Categories /><section dir="rtl"><div className="mb-4 flex items-center justify-between"><h2 className="flex items-center gap-2 text-xl font-black text-white sm:text-2xl">أشهر المنتجات <span className="text-red-500">♨</span></h2><Link href="/store" className="text-sm font-bold text-red-400">عرض الكل</Link></div><div className="grid grid-cols-2 gap-3 sm:grid-cols-4">{products.map((product) => <ProductCard key={product.slug} product={product} />)}</div></section></div></div></main>
 }
