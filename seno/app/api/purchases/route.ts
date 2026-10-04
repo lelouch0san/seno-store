@@ -4,7 +4,7 @@ import { getGame } from '@/lib/game-data'
 import { getSenoBalanceCodeProduct } from '@/lib/seno-balance-codes'
 
 export async function POST(request: Request) {
-  const body = await request.json().catch(() => null) as { productId?: unknown; packageId?: unknown; gameId?: unknown; accountData?: unknown; senoCode?: unknown } | null
+  const body = await request.json().catch(() => null) as { productId?: unknown; packageId?: unknown; gameId?: unknown; accountData?: unknown; senoCode?: unknown; crypto?: unknown } | null
   if (typeof body?.gameId === 'string') {
     const game = typeof body.gameId === 'string' ? getGame(body.gameId) : undefined
     const selectedPackage = game?.packages.find((item) => item.id === body.packageId)
@@ -15,6 +15,12 @@ export async function POST(request: Request) {
     const accountData = body.accountData as Record<string, unknown>
     if (game.requiredFields.some((field) => typeof accountData[field.id] !== 'string' || !(accountData[field.id] as string).trim())) return NextResponse.json({ success: false, message: 'Required account data is missing' }, { status: 400 })
     return NextResponse.json({ success: true, gameId: game.id, packageId: selectedPackage.id, amount: selectedPackage.price, currency: selectedPackage.currency })
+  }
+  if (body?.crypto === true) {
+    const cryptoBody = body as { productId?: unknown; productName?: unknown; symbol?: unknown; network?: unknown; walletAddress?: unknown; amount?: unknown; quantity?: unknown; unitPrice?: unknown; totalPrice?: unknown }
+    if (typeof cryptoBody.productId !== 'string' || typeof cryptoBody.network !== 'string' || typeof cryptoBody.walletAddress !== 'string' || cryptoBody.walletAddress.trim().length < 20) return NextResponse.json({ success: false, message: 'بيانات العملة أو عنوان المحفظة غير صالح' }, { status: 400 })
+    if (typeof cryptoBody.amount !== 'number' || cryptoBody.amount <= 0 || typeof cryptoBody.quantity !== 'number' || !Number.isInteger(cryptoBody.quantity) || cryptoBody.quantity <= 0) return NextResponse.json({ success: false, message: 'الكمية غير صالحة' }, { status: 400 })
+    return NextResponse.json({ success: true, orderId: `SNO-${crypto.randomUUID().slice(0, 8).toUpperCase()}`, productId: cryptoBody.productId, productName: cryptoBody.productName, symbol: cryptoBody.symbol, network: cryptoBody.network, amount: cryptoBody.amount, quantity: cryptoBody.quantity, totalPrice: cryptoBody.totalPrice, status: 'pending' })
   }
   if (body?.senoCode === true) {
     const productId = typeof body.productId === 'string' ? body.productId : ''
