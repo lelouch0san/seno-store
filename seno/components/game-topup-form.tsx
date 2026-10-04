@@ -3,8 +3,8 @@
 import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import { CheckCircle2, ChevronLeft, ShieldCheck } from 'lucide-react'
-import type { Game, GameOrder } from '@/lib/game-data'
-import { saveGameOrder } from '@/lib/game-data'
+import type { Game, GameOrder } from '@/lib/data'
+import { saveGameOrder } from '@/lib/data'
 import { useFrontendAuth } from '@/components/frontend-auth-provider'
 
 export function GameTopUpForm({ game, packageId }: { game: Game; packageId: string }) {

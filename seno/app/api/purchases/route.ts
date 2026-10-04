@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
-import { storeProducts } from '@/lib/store-products'
-import { getGame } from '@/lib/game-data'
-import { getSenoBalanceCodeProduct } from '@/lib/seno-balance-codes'
+import { storeProducts } from '@/lib/data'
+import { getGame } from '@/lib/data'
+import { getSenoBalanceCodeProduct } from '@/lib/data'
 
 export async function POST(request: Request) {
   const body = await request.json().catch(() => null) as { productId?: unknown; packageId?: unknown; gameId?: unknown; accountData?: unknown; senoCode?: unknown; crypto?: unknown; socialMediaService?: unknown } | null

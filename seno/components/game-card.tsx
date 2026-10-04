@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { CheckCircle2, ChevronLeft, CircleOff } from 'lucide-react'
-import type { Game } from '@/lib/game-data'
+import type { Game } from '@/lib/data'
 
 export function GameCard({ game }: { game: Game }) {
   return <article className="group overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#090d10] shadow-[0_0_24px_rgba(255,0,30,.08)] transition hover:-translate-y-1 hover:border-red-500/70">

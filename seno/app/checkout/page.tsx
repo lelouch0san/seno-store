@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { storeProducts } from '@/lib/store-products'
+import { storeProducts } from '@/lib/data'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Bell, Check, ChevronLeft, ClipboardList, CircleUserRound, FileText, Gamepad2, Home, LockKeyhole, ShoppingCart, Store, Wallet, Zap } from 'lucide-react'

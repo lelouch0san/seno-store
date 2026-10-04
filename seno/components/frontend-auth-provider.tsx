@@ -1,7 +1,7 @@
 'use client'
 
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
-import { demoUser } from '@/lib/mock-data'
+import { demoUser } from '@/lib/data'
 import type { Profile } from '@/lib/mock-profile'
 
 type FrontendAuth = { user: Profile | null; isAuthenticated: boolean; balance: number; setBalance: (balance: number) => void; signIn: () => void; signOut: () => void }

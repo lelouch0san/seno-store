@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
-import { readGameOrders, type GameOrder } from '@/lib/game-data'
+import { readGameOrders, type GameOrder } from '@/lib/data'
 import { ClipboardList, Clock3, CheckCircle2, ChevronLeft, Search, Wallet, RotateCcw } from 'lucide-react'
 import { SenoLogo } from '@/components/branding/seno-logo'
 import { SidebarTrigger } from '@/components/global-sidebar'
