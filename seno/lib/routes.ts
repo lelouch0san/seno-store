@@ -8,6 +8,7 @@ export const routes = {
   senoCodes: '/user/products/seno-codes',
   orders: '/orders',
   wallet: '/wallet',
+  walletSenoCode: '/wallet/seno-code',
   profile: '/profile',
   completeProfile: '/profile/complete',
   login: '/login',
