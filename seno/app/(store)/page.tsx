@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
-import { ChevronLeft, CircleUserRound, Home, Menu, Search, Store, Wallet } from 'lucide-react'
+import { CircleUserRound, Home, Menu, Search, Store, Wallet } from 'lucide-react'
 import { SenoLogo } from '@/components/branding/seno-logo'
 import { SidebarTrigger } from '@/components/global-sidebar'
 
@@ -71,7 +71,6 @@ function Hero() {
     {heroSlides.map((slide, index) => <Image key={slide.image} src={slide.image} alt={slide.alt} fill priority={index === 0} sizes="(max-width: 640px) calc(100vw - 32px), 976px" className={`object-cover transition duration-1000 ease-out ${index === activeSlide ? 'scale-[1.02] opacity-65' : 'scale-100 opacity-0'}`} style={{ objectPosition: slide.position }} />)}
     <div className="absolute inset-0 bg-gradient-to-l from-black/10 via-black/30 to-black/85" />
     <div className="relative flex h-full min-h-56 items-end p-5 sm:min-h-64 sm:p-8">
-      <div className="max-w-sm"><p className="mb-2 text-sm text-zinc-300">SENO STORE BY REDLINE</p><h1 className="text-3xl font-black leading-tight text-white sm:text-4xl">كل ما تحتاجه<br /><span className="text-amber-300">في مكان واحد</span></h1><p className="mt-3 text-sm text-zinc-200">ألعاب • تطبيقات صوتية • بطاقات رقمية • خدمات رقمية</p><Link href="/store" className="mt-5 inline-flex items-center gap-2 rounded-full bg-red-600 px-5 py-2.5 text-sm font-bold text-white shadow-[0_0_18px_rgba(239,68,68,.4)] transition hover:bg-red-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300">اكتشف خدماتنا <ChevronLeft className="size-4" /></Link></div>
       <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-2" role="group" aria-label="اختيار شريحة الهيرو">{heroSlides.map((slide, index) => <button key={slide.image} type="button" aria-label={`الانتقال إلى الشريحة ${index + 1}`} aria-current={index === activeSlide} onClick={() => goToSlide(index)} onFocus={() => setIsPaused(true)} className={`rounded-full transition-all ${index === activeSlide ? 'h-2.5 w-7 bg-amber-300' : 'size-2.5 bg-white/35 hover:bg-white/70'}`} />)}</div>
     </div>
   </section>
