@@ -3,7 +3,7 @@ import { storeProducts } from '@/lib/store-products'
 import { getGame } from '@/lib/game-data'
 
 export async function POST(request: Request) {
-  const body = await request.json().catch(() => null) as { productId?: unknown; gameId?: unknown; packageId?: unknown; accountData?: unknown } | null
+  const body = await request.json().catch(() => null) as { productId?: unknown; packageId?: unknown; gameId?: unknown; accountData?: unknown } | null
   if (typeof body?.gameId === 'string' || typeof body?.packageId === 'string') {
     const game = typeof body.gameId === 'string' ? getGame(body.gameId) : undefined
     const selectedPackage = game?.packages.find((item) => item.id === body.packageId)
@@ -17,14 +17,15 @@ export async function POST(request: Request) {
   }
   const productId = typeof body?.productId === 'string' ? body.productId : ''
   const product = storeProducts.find((item) => item.slug === productId)
+  const digitalPackage = product?.digitalCardPackages?.find((item) => item.id === body?.packageId)
 
   if (!product) {
     return NextResponse.json({ success: false, message: 'Product not found' }, { status: 400 })
   }
 
-  if (!product.isAvailable) {
+  if (!product.isAvailable || (product.digitalCardPackages && (!digitalPackage || !digitalPackage.available))) {
     return NextResponse.json({ success: false, message: 'Product is currently unavailable' }, { status: 409 })
   }
 
-  return NextResponse.json({ success: true, productId: product.slug, amount: product.price })
+  return NextResponse.json({ success: true, productId: product.slug, packageId: digitalPackage?.id, amount: digitalPackage?.sellingPrice ?? product.price, currency: digitalPackage?.sellingCurrency ?? 'EGP', deliveryType: digitalPackage ? 'digital' : undefined })
 }
