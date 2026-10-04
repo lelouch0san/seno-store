@@ -36,8 +36,13 @@ button { cursor: pointer; }
 
 @layer base { * { border-color: var(--border); } }
 
-@media (max-width: 380px) {
-  .max-w-5xl { padding-inline: .75rem; }
+@media (max-width: 639px) {
+  .max-w-5xl,
+  .max-w-6xl { padding-inline: 20px !important; }
+
+  main { padding-bottom: calc(7rem + env(safe-area-inset-bottom)) !important; }
+
+  body { overflow-x: hidden; }
 }
 
 @media (min-width: 1024px) {

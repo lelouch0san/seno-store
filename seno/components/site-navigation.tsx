@@ -30,7 +30,7 @@ function isActive(pathname: string, href: string) {
 
 export function BottomNavigation() {
   const pathname = usePathname()
-  return <nav className="fixed bottom-0 left-1/2 z-30 flex w-full max-w-5xl -translate-x-1/2 items-center justify-around rounded-t-[2rem] border-t-2 border-red-500 bg-zinc-950/95 px-2 py-3 backdrop-blur-xl lg:hidden" dir="rtl">
+  return <nav className="fixed bottom-0 left-1/2 z-30 flex h-[84px] w-full max-w-5xl -translate-x-1/2 items-center justify-around rounded-t-[1.75rem] border-t border-red-500/80 bg-[#070707]/95 px-3 pb-[calc(.75rem+env(safe-area-inset-bottom))] pt-2 backdrop-blur-xl lg:hidden" dir="rtl">
     {items.map(({ label, href, iconPath }) => <Link href={href} key={label} className={`flex min-w-14 flex-col items-center gap-1 text-xs ${isActive(pathname, href) ? 'text-red-500 drop-shadow-[0_0_10px_rgba(255,0,30,.8)]' : 'text-zinc-300'}`}><img src={iconPath} alt="" aria-hidden="true" className="size-8 object-contain" /><span className="font-bold">{label}</span></Link>)}
   </nav>
 }
