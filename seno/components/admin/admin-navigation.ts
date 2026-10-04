@@ -12,10 +12,10 @@ export const adminNavigation: AdminNavGroup[] = [
   { label: 'الرئيسية', items: [{ label: 'لوحة التحكم', href: '/admin', icon: LayoutDashboard }] },
   { label: 'المتجر', items: [
     { label: 'إدارة الرئيسية', href: '/admin/home', icon: PanelsTopLeft },
-    { label: 'البنرات', href: '/admin/banners', icon: Megaphone, disabled: true },
-    { label: 'الأقسام', href: '/admin/categories', icon: Boxes, disabled: true },
-    { label: 'المنتجات', href: '/admin/products', icon: Package, disabled: true },
-    { label: 'الباقات', href: '/admin/packages', icon: Tags, disabled: true },
+    { label: 'البنرات', href: '/admin/banners', icon: Megaphone },
+    { label: 'الأقسام', href: '/admin/categories', icon: Boxes },
+    { label: 'المنتجات', href: '/admin/products', icon: Package },
+    { label: 'الباقات', href: '/admin/packages', icon: Tags },
   ] },
   { label: 'الخدمات', items: [
     { label: 'أنواع المنتجات', href: '/admin/product-types', icon: ShoppingBag, disabled: true },
