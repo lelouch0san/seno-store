@@ -9,8 +9,7 @@ import { SidebarTrigger } from '@/components/global-sidebar'
 import { storeProducts } from '@/lib/store-products'
 
 const heroSlides = [
-  { image: '/images/hero/hero-storefront.png', alt: 'شعار SENO STORE مع يد تحكم وسماعة وبطاقات رقمية', position: 'center 22%' },
-  { image: '/images/hero/hero-games.png', alt: 'ألعاب وشخصيات وبطاقات ألعاب من SENO STORE', position: 'center 22%' },
+  { image: '/images/home-banner-new.png', alt: 'بانر SENO STORE السينمائي مع الألعاب والبطاقات والخدمات الرقمية', position: 'center' },
 ]
 
 type Category = { label: string; description?: string; href: string; image: string; accent: string }
@@ -21,6 +20,7 @@ const categories: Category[] = [
   { label: 'تطبيقات الصوت', href: '/store/apps', image: '/images/category-apps.png', accent: 'border-blue-500/80' },
   { label: 'البطاقات الرقمية', href: '/store/gift-cards', image: '/images/category-gift-cards.png', accent: 'border-fuchsia-500/80' },
   { label: 'خدمات أخرى', href: '/store/services', image: '/images/category-services.png', accent: 'border-amber-400/80' },
+  { label: 'أكواد سينو رصيد', description: 'رصيد رقمي مسبق الدفع', href: '/user/products/seno-codes', image: '/images/seno-balance-code.png', accent: 'border-amber-300/90' },
   { label: 'سحب الأموال', description: 'خدمات سحب وتحويل الأموال', href: '/store/withdraw', image: '/images/category-money-withdrawal.png', accent: 'border-emerald-400/80' },
   { label: 'التسوق', description: 'منتجات وخدمات التسوق الرقمية', href: '/store/shopping', image: '/images/category-shopping.png', accent: 'border-orange-400/80' },
   { label: 'الاشتراكات', description: 'اشتراكاتك المفضلة', href: '/store/subscriptions', image: '/images/category-subscriptions.png', accent: 'border-violet-400/80' },
@@ -74,9 +74,9 @@ function Hero() {
   const goNext = () => goToSlide((activeSlide + 1) % heroSlides.length)
   const goPrevious = () => goToSlide((activeSlide - 1 + heroSlides.length) % heroSlides.length)
 
-  return <section className="relative aspect-[361/224] min-h-56 overflow-hidden rounded-3xl border border-red-500/80 bg-black shadow-[0_0_24px_rgba(239,68,68,.12)] sm:aspect-auto sm:min-h-64" dir="rtl" aria-roledescription="carousel" aria-label="عروض SENO STORE" tabIndex={0} onKeyDown={(event) => { if (event.key === 'ArrowLeft') goNext(); if (event.key === 'ArrowRight') goPrevious() }} onTouchStart={(event) => { touchStart.current = event.touches[0].clientX }} onTouchEnd={(event) => { if (touchStart.current === null) return; const delta = event.changedTouches[0].clientX - touchStart.current; if (Math.abs(delta) > 40) delta > 0 ? goPrevious() : goNext(); touchStart.current = null }}>
+  return <section className="relative aspect-[1536/491] w-full overflow-hidden rounded-3xl border border-red-500/80 bg-black shadow-[0_0_24px_rgba(239,68,68,.12)]" dir="rtl" aria-roledescription="carousel" aria-label="عروض SENO STORE" tabIndex={0} onKeyDown={(event) => { if (event.key === 'ArrowLeft') goNext(); if (event.key === 'ArrowRight') goPrevious() }} onTouchStart={(event) => { touchStart.current = event.touches[0].clientX }} onTouchEnd={(event) => { if (touchStart.current === null) return; const delta = event.changedTouches[0].clientX - touchStart.current; if (Math.abs(delta) > 40) delta > 0 ? goPrevious() : goNext(); touchStart.current = null }}>
     {heroSlides.map((slide, index) => <Image key={slide.image} src={slide.image} alt={slide.alt} fill priority={index === 0} sizes="(max-width: 640px) calc(100vw - 32px), 976px" className={`object-cover transition duration-1000 ease-out ${index === activeSlide ? 'scale-[1.02] opacity-100' : 'scale-100 opacity-0'}`} style={{ objectPosition: slide.position }} />)}
-    <div className="relative flex h-full min-h-56 items-end p-5 sm:min-h-64 sm:p-8">
+    <div className="relative flex h-full items-end p-3 sm:p-5">
       <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-2" role="group" aria-label="اختيار شريحة الهيرو">{heroSlides.map((slide, index) => <button key={slide.image} type="button" aria-label={`الانتقال إلى الشريحة ${index + 1}`} aria-current={index === activeSlide} onClick={() => goToSlide(index)} onFocus={() => setIsPaused(true)} className={`rounded-full transition-all ${index === activeSlide ? 'h-2.5 w-7 bg-amber-300' : 'size-2.5 bg-white/35 hover:bg-white/70'}`} />)}</div>
     </div>
   </section>
@@ -100,5 +100,5 @@ function ProductCard({ product }: { product: Product }) {
 
 
 export default function Page() {
-  return <main className="min-h-screen bg-[#050506] pb-24 text-white" dir="rtl"><div className="mx-auto max-w-5xl px-4 sm:px-6"><HomeHeader onMenu={() => {}} /><div className="flex flex-col gap-8 pb-8"><Hero /><AnnouncementTicker /><label className="flex h-14 items-center gap-3 rounded-full border border-white/15 bg-white/[.035] px-5 text-zinc-400" aria-label="البحث عن منتج أو فئة"><Search className="size-6 shrink-0" /><input className="min-w-0 flex-1 bg-transparent text-sm text-white outline-none placeholder:text-zinc-500" placeholder="ابحث عن منتج أو فئة..." /></label><Categories /><section dir="rtl"><div className="mb-4 flex items-center justify-between"><h2 className="flex items-center gap-2 text-xl font-black text-white sm:text-2xl">أشهر المنتجات <span className="text-red-500">♨</span></h2><Link href="/store" className="text-sm font-bold text-red-400">عرض الكل</Link></div><div className="grid grid-cols-2 gap-3 sm:grid-cols-4">{products.map((product) => <ProductCard key={product.slug} product={product} />)}</div></section></div></div></main>
+  return <main className="min-h-screen bg-[#050506] pb-24 text-white" dir="rtl"><div className="mx-auto max-w-5xl px-5 sm:px-6"><HomeHeader onMenu={() => {}} /><div className="flex flex-col gap-8 pb-8"><Hero /><AnnouncementTicker /><label className="flex h-14 items-center gap-3 rounded-full border border-white/15 bg-white/[.035] px-5 text-zinc-400" aria-label="البحث عن منتج أو فئة"><Search className="size-6 shrink-0" /><input className="min-w-0 flex-1 bg-transparent text-sm text-white outline-none placeholder:text-zinc-500" placeholder="ابحث عن منتج أو فئة..." /></label><Categories /><section dir="rtl"><div className="mb-4 flex items-center justify-between"><h2 className="flex items-center gap-2 text-xl font-black text-white sm:text-2xl">أشهر المنتجات <span className="text-red-500">♨</span></h2><Link href="/store" className="text-sm font-bold text-red-400">عرض الكل</Link></div><div className="grid grid-cols-2 gap-3 sm:grid-cols-4">{products.map((product) => <ProductCard key={product.slug} product={product} />)}</div></section></div></div></main>
 }
