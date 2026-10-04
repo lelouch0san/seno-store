@@ -21,11 +21,11 @@ const catalog: Record<StoreCategory, CatalogItem[]> = {
   games: [
     { slug: 'pubg-mobile', name: 'PUBG Mobile', description: 'شحن شدات ببجي بسرعة وأمان', detail: 'UC وشحن مباشر', imagePosition: 'object-[50%_65%]', available: true },
     { slug: 'free-fire', name: 'Free Fire', description: 'اشحن جواهر فري فاير', detail: 'Diamonds', imagePosition: 'object-[50%_67%]', available: true },
-    { slug: 'mobile-legends', name: 'Mobile Legends', description: 'شحن الماسات داخل اللعبة', detail: 'Diamonds', imagePosition: 'object-[50%_72%]', available: true },
+    { slug: 'mobile-legends', name: 'Mobile Legends', description: 'شحن الماسات داخل اللعبة', detail: 'Diamonds', imagePosition: 'object-[50%_72%]', available: false },
     { slug: 'call-of-duty-mobile', name: 'Call of Duty Mobile', description: 'نقاط CP لحسابك', detail: 'CP', imagePosition: 'object-[50%_58%]', available: true },
   ],
   apps: [
-    { slug: 'sahra-chat', name: 'Sahra Chat', description: 'اشحن عملاتك داخل التطبيق', detail: 'Masa', imagePosition: 'object-[50%_76%]', available: true },
+    { slug: 'sahra-chat', name: 'Sahra Chat', description: 'اشحن عملاتك داخل التطبيق', detail: 'Masa', imagePosition: 'object-[50%_76%]', available: false },
     { slug: 'tiktok', name: 'TikTok', description: 'شحن عملات تيك توك', detail: 'Coins', imagePosition: 'object-[50%_42%]', available: true },
     { slug: 'bigo-live', name: 'Bigo Live', description: 'شحن رصيد البث المباشر', detail: 'Diamonds', imagePosition: 'object-[50%_48%]', available: true },
   ],
