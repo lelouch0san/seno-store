@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ChevronDown, ChevronLeft, CircleUserRound, Gamepad2, Gift, MoreHorizontal, Search, ShoppingCart, Smartphone, Store, Wallet } from 'lucide-react'
+import { ChevronDown, ChevronLeft, CircleUserRound, Gamepad2, Gift, MoreHorizontal, Search, Smartphone, Store, Wallet } from 'lucide-react'
 import { SenoLogo } from '@/components/branding/seno-logo'
 import { SidebarTrigger } from '@/components/global-sidebar'
 
@@ -25,10 +25,10 @@ const banners = [
 ]
 
 const products = [
-  { name: 'PUBG Mobile', detail: '660 UC', price: '680 EGP', pos: 'object-[50%_65%]' },
-  { name: 'Free Fire', detail: '100 Diamonds', price: '110 EGP', pos: 'object-[50%_67%]' },
-  { name: 'Mobile Legends', detail: '86 Diamonds', price: '100 EGP', pos: 'object-[50%_72%]' },
-  { name: 'Sahra Chat', detail: '6,000 Masa', price: '240 EGP', pos: 'object-[50%_76%]' },
+  { name: 'PUBG Mobile', detail: '660 UC', oldPrice: '800 EGP', price: '680 EGP', discount: 'خصم 15%', pos: 'object-[50%_65%]' },
+  { name: 'Free Fire', detail: '100 Diamonds', oldPrice: '140 EGP', price: '110 EGP', discount: 'خصم 21%', pos: 'object-[50%_67%]' },
+  { name: 'Mobile Legends', detail: '86 Diamonds', oldPrice: '125 EGP', price: '100 EGP', discount: 'خصم 20%', pos: 'object-[50%_72%]' },
+  { name: 'Sahra Chat', detail: '6,000 Masa', oldPrice: '300 EGP', price: '240 EGP', discount: 'خصم 20%', pos: 'object-[50%_76%]' },
 ]
 
 function Header({ onMenu }: { onMenu: () => void }) {
@@ -44,10 +44,10 @@ function CategoryBanner({ item }: { item: typeof banners[number] }) {
 }
 
 function ProductCard({ product, first }: { product: typeof products[number]; first?: boolean }) {
-  return <article className="min-w-[13rem] overflow-hidden rounded-2xl border border-amber-600/60 bg-zinc-950 shadow-[0_0_16px_rgba(255,190,0,.06)] sm:min-w-0"><div className="relative h-40 overflow-hidden bg-zinc-900"><img src={artwork} alt={product.name} className={`size-full object-cover opacity-90 ${product.pos}`} />{first && <span className="absolute right-2 top-2 rounded-full bg-red-600 px-2 py-1 text-[10px] font-bold">الأكثر طلباً</span>}</div><div className="p-3" dir="rtl"><h3 className="font-bold text-white">{product.name}</h3><p className="mt-1 text-sm text-zinc-200">{product.detail}</p><div className="mt-3 flex items-center gap-2" dir="ltr"><button aria-label={`إضافة ${product.name} للسلة`} className="grid size-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-amber-300 to-orange-600 text-black"><ShoppingCart className="size-5" /></button><button className="flex-1 rounded-xl border border-amber-500 px-2 py-2 text-sm font-bold text-amber-300">{product.price}</button></div></div></article>
+  return <article className="min-w-[13rem] overflow-hidden rounded-2xl border border-amber-600/60 bg-zinc-950 shadow-[0_0_16px_rgba(255,190,0,.06)] transition hover:-translate-y-1 hover:border-amber-300/80 sm:min-w-0"><div className="relative h-40 overflow-hidden bg-zinc-900"><img src={artwork} alt={product.name} className={`size-full object-cover opacity-90 ${product.pos}`} />{first && <span className="absolute right-2 top-2 rounded-full bg-red-600 px-2 py-1 text-[10px] font-bold">الأكثر طلباً</span>}<span className="absolute left-2 top-2 rounded-full bg-amber-300 px-2 py-1 text-[10px] font-black text-black">{product.discount}</span></div><div className="p-3" dir="rtl"><h3 className="font-bold text-white">{product.name}</h3><p className="mt-1 text-sm text-zinc-200">{product.detail}</p><div className="mt-3 flex items-center justify-between gap-2"><div><del className="block text-xs text-zinc-500">{product.oldPrice}</del><strong className="text-lg text-amber-300">{product.price}</strong></div><Link href="/checkout" className="rounded-xl bg-gradient-to-l from-red-600 to-red-500 px-3 py-2 text-sm font-black text-white shadow-[0_0_16px_rgba(239,68,68,.35)] transition hover:from-amber-300 hover:to-amber-400 hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300">اشترِ الآن</Link></div></div></article>
 }
 
 
 export default function StorePage() {
-  return <main className="min-h-screen bg-[#050506] pb-28 text-white" dir="rtl"><div className="mx-auto max-w-5xl px-4 sm:px-6"><Header onMenu={() => {}} /><div className="flex flex-col gap-7 py-7"><CategoryTabs /><section className="grid gap-5">{banners.map((item) => <CategoryBanner key={item.title} item={item} />)}</section><section><div className="mb-4 flex items-center justify-between"><h2 className="text-2xl font-black">الأكثر طلباً <span className="text-red-500">♨</span></h2><button className="text-amber-300">عرض الكل <ChevronLeft className="inline size-4" /></button></div><div className="-mx-4 flex gap-3 overflow-x-auto px-4 pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:px-0 lg:grid-cols-4">{products.map((product, index) => <ProductCard key={product.name} product={product} first={index === 0} />)}</div></section><section className="relative overflow-hidden rounded-3xl border border-red-600 bg-black px-6 py-6 text-center shadow-[0_0_24px_rgba(255,0,30,.2)] sm:flex sm:items-center sm:justify-between sm:text-right"><img src={artwork} alt="" className="absolute inset-0 size-full object-cover object-[50%_96%] opacity-60" /><div className="relative"><h2 className="text-2xl font-black text-white">عروض وخصومات حصرية</h2><p className="mt-1 text-sm text-zinc-200">لا تفوت أفضل العروض على جميع المنتجات</p></div><button className="relative mt-4 rounded-full bg-red-600 px-6 py-3 font-bold sm:mt-0">شاهد العروض <ChevronLeft className="mr-1 inline size-4" /></button></section></div></div></main>
+  return <main className="min-h-screen bg-[#050506] pb-28 text-white" dir="rtl"><div className="mx-auto max-w-5xl px-4 sm:px-6"><Header onMenu={() => {}} /><div className="flex flex-col gap-7 py-7"><CategoryTabs /><section className="grid gap-5">{banners.map((item) => <CategoryBanner key={item.title} item={item} />)}</section><section><div className="mb-4 flex items-center justify-between"><h2 className="text-2xl font-black">الأكثر طلباً <span className="text-red-500">♨</span></h2><button className="text-amber-300">عرض الكل <ChevronLeft className="inline size-4" /></button></div><div className="-mx-4 flex gap-3 overflow-x-auto px-4 pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:px-0 lg:grid-cols-4">{products.map((product, index) => <ProductCard key={product.name} product={product} first={index === 0} />)}</div></section><section className="relative overflow-hidden rounded-3xl border border-red-600 bg-black px-6 py-6 text-center shadow-[0_0_24px_rgba(255,0,30,.2)] sm:flex sm:items-center sm:justify-between sm:text-right"><Image src="/images/offers-exclusive.png" alt="عروض حصرية من SENO STORE" fill sizes="(max-width: 640px) calc(100vw - 32px), 960px" className="object-cover object-center opacity-60" /><div className="relative"><h2 className="text-2xl font-black text-white">عروض وخصومات حصرية</h2><p className="mt-1 text-sm text-zinc-200">لا تفوت أفضل العروض على جميع المنتجات</p></div><button className="relative mt-4 rounded-full bg-red-600 px-6 py-3 font-bold sm:mt-0">شاهد العروض <ChevronLeft className="mr-1 inline size-4" /></button></section></div></div></main>
 }
