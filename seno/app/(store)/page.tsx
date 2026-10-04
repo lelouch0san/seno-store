@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
-import { Search, Wallet } from 'lucide-react'
+import { Search } from 'lucide-react'
 import { SenoLogo } from '@/components/branding/seno-logo'
 import { SidebarTrigger } from '@/components/global-sidebar'
 
@@ -31,8 +31,7 @@ function HomeHeader({ onMenu }: { onMenu: () => void }) {
 <SenoLogo className="w-40 sm:w-48" />
     </Link>
     <div className="flex items-center gap-2">
-      <Link href="/wallet" className="flex items-center gap-2 rounded-full border border-amber-400/50 bg-white/[.035] px-3 py-2 text-sm text-white sm:px-4"><Wallet className="size-4 text-amber-300" /> <span>500.00 EGP</span></Link>
-          <SidebarTrigger />
+      <SidebarTrigger />
     </div>
   </header>
 }
