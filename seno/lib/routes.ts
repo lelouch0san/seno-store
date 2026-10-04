@@ -5,6 +5,7 @@ export const routes = {
   apps: '/store/apps',
   giftCards: '/store/gift-cards',
   services: '/store/services',
+  senoCodes: '/user/products/seno-codes',
   orders: '/orders',
   wallet: '/wallet',
   profile: '/profile',

@@ -21,6 +21,7 @@ const categories: Category[] = [
   { label: 'تطبيقات الصوت', href: '/store/apps', image: '/images/category-apps.png', accent: 'border-blue-500/80' },
   { label: 'البطاقات الرقمية', href: '/store/gift-cards', image: '/images/category-gift-cards.png', accent: 'border-fuchsia-500/80' },
   { label: 'خدمات أخرى', href: '/store/services', image: '/images/category-services.png', accent: 'border-amber-400/80' },
+  { label: 'أكواد سينو رصيد', description: 'رصيد رقمي مسبق الدفع', href: '/user/products/seno-codes', image: '/images/seno-balance-code.png', accent: 'border-amber-300/90' },
   { label: 'سحب الأموال', description: 'خدمات سحب وتحويل الأموال', href: '/store/withdraw', image: '/images/category-money-withdrawal.png', accent: 'border-emerald-400/80' },
   { label: 'التسوق', description: 'منتجات وخدمات التسوق الرقمية', href: '/store/shopping', image: '/images/category-shopping.png', accent: 'border-orange-400/80' },
   { label: 'الاشتراكات', description: 'اشتراكاتك المفضلة', href: '/store/subscriptions', image: '/images/category-subscriptions.png', accent: 'border-violet-400/80' },

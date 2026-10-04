@@ -20,6 +20,7 @@ const menuItems = [
   { label: 'التطبيقات', href: routes.apps, icon: Smartphone },
   { label: 'البطاقات الرقمية', href: routes.giftCards, icon: Gift },
   { label: 'خدمات أخرى', href: routes.services, icon: MoreHorizontal },
+  { label: 'سينو كود', href: routes.senoCodes, icon: Gift },
 ]
 
 function isActive(pathname: string, href: string) {
