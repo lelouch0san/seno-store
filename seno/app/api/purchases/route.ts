@@ -4,7 +4,7 @@ import { getGame } from '@/lib/game-data'
 import { getSenoBalanceCodeProduct } from '@/lib/seno-balance-codes'
 
 export async function POST(request: Request) {
-  const body = await request.json().catch(() => null) as { productId?: unknown; packageId?: unknown; gameId?: unknown; accountData?: unknown; senoCode?: unknown; crypto?: unknown } | null
+  const body = await request.json().catch(() => null) as { productId?: unknown; packageId?: unknown; gameId?: unknown; accountData?: unknown; senoCode?: unknown; crypto?: unknown; socialMediaService?: unknown } | null
   if (typeof body?.gameId === 'string') {
     const game = typeof body.gameId === 'string' ? getGame(body.gameId) : undefined
     const selectedPackage = game?.packages.find((item) => item.id === body.packageId)
@@ -15,6 +15,12 @@ export async function POST(request: Request) {
     const accountData = body.accountData as Record<string, unknown>
     if (game.requiredFields.some((field) => typeof accountData[field.id] !== 'string' || !(accountData[field.id] as string).trim())) return NextResponse.json({ success: false, message: 'Required account data is missing' }, { status: 400 })
     return NextResponse.json({ success: true, gameId: game.id, packageId: selectedPackage.id, amount: selectedPackage.price, currency: selectedPackage.currency })
+  }
+  if (body?.socialMediaService === true) {
+    const socialBody = body as { platform?: unknown; serviceId?: unknown; serviceName?: unknown; target?: unknown; targetType?: unknown; quantity?: unknown; unitPrice?: unknown; totalPrice?: unknown; currency?: unknown }
+    if (typeof socialBody.platform !== 'string' || typeof socialBody.serviceId !== 'string' || typeof socialBody.target !== 'string' || !socialBody.target.trim()) return NextResponse.json({ success: false, message: 'Required service data is missing' }, { status: 400 })
+    if (typeof socialBody.quantity !== 'number' || !Number.isInteger(socialBody.quantity) || socialBody.quantity <= 0 || typeof socialBody.unitPrice !== 'number' || socialBody.unitPrice <= 0) return NextResponse.json({ success: false, message: 'Invalid service quantity' }, { status: 400 })
+    return NextResponse.json({ success: true, orderId: `SNO-${crypto.randomUUID().slice(0, 8).toUpperCase()}`, orderType: 'social_media_service', platform: socialBody.platform, serviceId: socialBody.serviceId, serviceName: socialBody.serviceName, target: socialBody.target, targetType: socialBody.targetType, quantity: socialBody.quantity, unitPrice: socialBody.unitPrice, totalPrice: socialBody.totalPrice, currency: socialBody.currency, status: 'pending' })
   }
   if (body?.crypto === true) {
     const cryptoBody = body as { productId?: unknown; productName?: unknown; symbol?: unknown; network?: unknown; walletAddress?: unknown; amount?: unknown; quantity?: unknown; unitPrice?: unknown; totalPrice?: unknown }
