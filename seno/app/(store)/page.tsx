@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react'
 import { ChevronLeft, CircleUserRound, Home, Menu, Search, Store, Wallet } from 'lucide-react'
 import { SenoLogo } from '@/components/branding/seno-logo'
 import { SidebarTrigger } from '@/components/global-sidebar'
+import { storeProducts } from '@/lib/store-products'
 
 const heroSlides = [
   { image: '/images/hero/hero-storefront.png', alt: 'شعار SENO STORE مع يد تحكم وسماعة وبطاقات رقمية', position: 'center 22%' },
@@ -13,7 +14,7 @@ const heroSlides = [
 ]
 
 type Category = { label: string; href: string; image: string; accent: string }
-type Product = { name: string; slug: string; mark: string; tone: string; isAvailable: boolean }
+type Product = (typeof storeProducts)[number] & { mark: string; tone: string }
 
 const categories: Category[] = [
   { label: 'شحن الألعاب', href: '/store/games', image: '/images/category-games.png', accent: 'border-red-500/80' },
@@ -22,12 +23,13 @@ const categories: Category[] = [
   { label: 'خدمات أخرى', href: '/store/services', image: '/images/category-services.png', accent: 'border-amber-400/80' },
 ]
 
-const products: Product[] = [
-  { name: 'PUBG Mobile', slug: 'pubg-mobile', mark: 'PUBG MOBILE', tone: 'from-sky-950 via-blue-950 to-black', isAvailable: true },
-  { name: 'Sahra Chat', slug: 'sahra-chat', mark: 'SAHRA', tone: 'from-fuchsia-950 via-purple-950 to-black', isAvailable: false },
-  { name: 'Google Play', slug: 'google-play', mark: '▶ Google Play', tone: 'from-cyan-950 via-slate-900 to-black', isAvailable: true },
-  { name: 'Free Fire', slug: 'free-fire', mark: 'FREE FIRE', tone: 'from-orange-950 via-red-950 to-black', isAvailable: true },
-]
+const productVisuals: Record<string, { mark: string; tone: string }> = {
+  'pubg-mobile': { mark: 'PUBG MOBILE', tone: 'from-sky-950 via-blue-950 to-black' },
+  'sahra-chat': { mark: 'SAHRA', tone: 'from-fuchsia-950 via-purple-950 to-black' },
+  'google-play': { mark: '▶ Google Play', tone: 'from-cyan-950 via-slate-900 to-black' },
+  'free-fire': { mark: 'FREE FIRE', tone: 'from-orange-950 via-red-950 to-black' },
+}
+const products: Product[] = storeProducts.filter((product) => productVisuals[product.slug]).map((product) => ({ ...product, ...productVisuals[product.slug] }))
 
 function HomeHeader({ onMenu }: { onMenu: () => void }) {
   return <header className="flex items-center justify-between gap-3 py-5 sm:py-7" dir="ltr">
@@ -81,8 +83,8 @@ function Categories() {
 }
 
 function ProductCard({ product }: { product: Product }) {
-  const card = <article className="group overflow-hidden rounded-2xl border border-white/10 bg-[#0b0c0f] transition hover:-translate-y-1 hover:border-amber-400/60" dir="rtl"><div className="relative flex h-32 items-center justify-center bg-gradient-to-br p-3"><div className={`absolute inset-0 bg-gradient-to-br ${product.tone}`} /><span className="relative text-center text-xl font-black text-white drop-shadow-[0_0_10px_rgba(255,0,0,.45)]">{product.mark}</span>{!product.isAvailable && <span className="absolute left-2 top-2 rounded-full bg-zinc-700 px-2 py-1 text-[10px] font-black text-white">منتج غير متوفر</span>}</div><div className="flex items-center justify-between gap-2 p-3"><h3 className="text-sm font-bold text-white">{product.name}</h3>{product.isAvailable ? <span className="grid size-8 place-items-center rounded-full border border-amber-400/60 text-amber-300 transition group-hover:bg-amber-300 group-hover:text-black"><ChevronLeft className="size-4" /></span> : <button type="button" onClick={() => window.alert('هذا المنتج غير متوفر حاليًا')} className="rounded-lg border border-zinc-600 px-2 py-1 text-xs font-bold text-zinc-400">غير متوفر</button>}</div></article>
-  return product.isAvailable ? <Link href={`/product/${product.slug}`}>{card}</Link> : card
+  const card = <article className="group overflow-hidden rounded-2xl border border-white/10 bg-[#0b0c0f] transition hover:-translate-y-1 hover:border-amber-400/60" dir="rtl"><div className="relative flex h-32 items-center justify-center bg-gradient-to-br p-3"><div className={`absolute inset-0 bg-gradient-to-br ${product.tone}`} /><span className="relative text-center text-xl font-black text-white drop-shadow-[0_0_10px_rgba(255,0,0,.45)]">{product.mark}</span><span className={`absolute left-2 top-2 rounded-full px-2 py-1 text-[10px] font-black text-white ${product.isAvailable ? 'bg-emerald-600' : 'bg-red-950 border border-red-500/70'}`}>{product.isAvailable ? 'متاح' : 'غير متوفر'}</span></div><div className="flex items-center justify-between gap-2 p-3"><h3 className="text-sm font-bold text-white">{product.name}</h3>{product.isAvailable ? <span className="grid size-8 place-items-center rounded-full border border-amber-400/60 text-amber-300 transition group-hover:bg-amber-300 group-hover:text-black"><ChevronLeft className="size-4" /></span> : <button type="button" onClick={() => window.alert('هذا المنتج غير متوفر حاليًا')} className="rounded-lg border border-zinc-600 px-2 py-1 text-xs font-bold text-zinc-400">غير متوفر</button>}</div></article>
+  return <Link href={`/product/${product.slug}`} aria-label={`${product.name} - ${product.isAvailable ? 'متاح' : 'غير متوفر'}`}>{card}</Link>
 }
 
 
