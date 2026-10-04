@@ -3,9 +3,12 @@ import { storeProducts } from '@/lib/data'
 import { getGame } from '@/lib/data'
 import { getSenoBalanceCodeProduct } from '@/lib/data'
 import { createOrder, resolveOrderPricing, OrderInputError } from '@/lib/orders/service'
+import { createOrderSchema, getValidationMessage } from '@/lib/validation'
 
 export async function POST(request: Request) {
   const body = await request.json().catch(() => null) as { productId?: unknown; packageId?: unknown; gameId?: unknown; accountData?: unknown; senoCode?: unknown; crypto?: unknown; socialMediaService?: unknown; quantity?: unknown } | null
+  const parsedInput = createOrderSchema.safeParse(body ?? {})
+  if (!parsedInput.success && !body?.crypto && !body?.senoCode && !body?.socialMediaService) return NextResponse.json({ success: false, message: getValidationMessage(parsedInput.error) }, { status: 400 })
   if (typeof body?.gameId === 'string') {
     const game = typeof body.gameId === 'string' ? getGame(body.gameId) : undefined
     const selectedPackage = game?.packages.find((item) => item.id === body.packageId)

@@ -2,6 +2,8 @@
 
 import { ArrowRight, Check, ChevronDown, ChevronUp, Heart, Info, Search, X } from 'lucide-react'
 import { useMemo, useState } from 'react'
+import { toast } from 'sonner'
+import { getValidationMessage, socialMediaTargetSchema, validateQuantity } from '@/lib/validation'
 
 type InputType = 'profile_url' | 'post_url' | 'video_url' | 'username'
 type Platform = { id: string; name: string; image: string; description: string }
@@ -42,15 +44,17 @@ export function SocialMediaServicesPage() {
 
   function openService(service: Service) { if (!service.available) return; setSelected(service); setTarget(''); setQuantity(service.minimumQuantity); setError('') }
   function closeModal() { if (!loading) setSelected(null) }
-  function validTarget(value: string) { if (!value.trim()) return false; if (selected?.inputType === 'username') return value.trim().length >= 2; return /^https?:\/\/.+/.test(value.trim()) }
+  function validTarget(value: string) { if (!selected) return false; return socialMediaTargetSchema.safeParse({ targetType: selected.inputType, target: value }).success }
   async function submit() {
     if (!selected || loading) return
     if (!validTarget(target)) { setError(`يرجى إدخال ${selected.inputLabel} صحيح`); return }
-    if (quantity < selected.minimumQuantity || quantity > selected.maximumQuantity || (quantity - selected.minimumQuantity) % selected.quantityStep !== 0) { setError(`العدد يجب أن يكون بين ${selected.minimumQuantity.toLocaleString('en-US')} و ${selected.maximumQuantity.toLocaleString('en-US')}`); return }
+    const quantityResult = validateQuantity(quantity, selected.minimumQuantity, selected.maximumQuantity, selected.quantityStep)
+    if (!quantityResult.success) { setError(getValidationMessage(quantityResult.error)); return }
     setLoading(true); setError('')
-    const response = await fetch('/api/purchases', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ socialMediaService: true, platform: selected.platform, serviceId: selected.id, serviceName: selected.name, target, targetType: selected.inputType, quantity, unitPrice: selected.pricePerUnit, totalPrice: total, currency: selected.currency }) })
+    const response = await fetch('/api/purchases', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ socialMediaService: true, platform: selected.platform, serviceId: selected.id, serviceName: selected.name, target, targetType: selected.inputType, quantity }) })
     const result = await response.json().catch(() => null); setLoading(false)
     if (!response.ok) { setError(result?.message === 'Service is currently unavailable' ? 'الخدمة غير متاحة حالياً' : 'تعذر إنشاء الطلب، حاول مرة أخرى'); return }
+    toast.success('تم إنشاء الطلب بنجاح.')
     setSuccess({ orderId: result.orderId ?? 'SNO-PENDING', service: selected, total }); setSelected(null)
   }
 

@@ -2,6 +2,7 @@ import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
 import { FrontendAuthProvider } from '@/components/frontend-auth-provider'
+import { ToastProvider } from '@/components/ui/toast-provider'
 
 export const metadata: Metadata = {
   title: 'SENO STORE | شحن الألعاب والبطاقات الرقمية',
@@ -35,6 +36,7 @@ export default function RootLayout({
         <FrontendAuthProvider>
           {children}
         </FrontendAuthProvider>
+        <ToastProvider />
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>
