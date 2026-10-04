@@ -1,11 +1,11 @@
 export type GameField = { id: string; label: string; placeholder: string; inputMode?: 'text' | 'numeric' }
-export type GamePackage = { id: string; amount: number; unit: string; price: number; currency: 'EGP'; isAvailable: boolean; sortOrder: number }
+export type GamePackage = { id: string; amount: number; unit: string; imageUrl: string; price: number; oldPrice?: number; discount?: number; currency: 'EGP'; isAvailable: boolean; sortOrder: number }
 
 export type Game = { id: string; name: string; description: string; image: string; isAvailable: boolean; requiredFields: GameField[]; sortOrder: number; packages: GamePackage[] }
 
 const artwork = 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/file_00000000745c8210b7e91f63ac752576-4DWCAUGZc7E8ufa6DY7jUxb81H7yfb.png'
 const fields = { player: [{ id: 'playerId', label: 'رقم اللاعب', placeholder: 'أدخل Player ID', inputMode: 'numeric' as const }], roblox: [{ id: 'username', label: 'اسم المستخدم', placeholder: 'أدخل Username', inputMode: 'text' as const }] }
-const pack = (id: string, amount: number, unit: string, price: number, sortOrder: number, isAvailable = true): GamePackage => ({ id, amount, unit, price, currency: 'EGP', isAvailable, sortOrder })
+const pack = (id: string, amount: number, unit: string, price: number, sortOrder: number, isAvailable = true, oldPrice?: number): GamePackage => ({ id, amount, unit, imageUrl: artwork, price, ...(oldPrice ? { oldPrice, discount: Math.round((1 - price / oldPrice) * 100) } : {}), currency: 'EGP', isAvailable, sortOrder })
 
 export const games: Game[] = [
   { id: 'pubg-global', name: 'PUBG Mobile', description: 'شحن UC بسرعة وأمان', image: artwork, isAvailable: true, requiredFields: fields.player, sortOrder: 1, packages: [pack('pubg-60', 60, 'UC', 80, 1), pack('pubg-325', 325, 'UC', 400, 2), pack('pubg-660', 660, 'UC', 680, 3), pack('pubg-1800', 1800, 'UC', 1700, 4), pack('pubg-3850', 3850, 'UC', 3500, 5, false)] },
