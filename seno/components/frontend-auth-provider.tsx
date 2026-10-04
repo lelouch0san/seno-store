@@ -27,3 +27,13 @@ export function useFrontendAuth() {
   if (!context) throw new Error('useFrontendAuth must be used inside FrontendAuthProvider')
   return context
 }
+
+export function useAuth() {
+  const { user, isAuthenticated } = useFrontendAuth()
+  return { user, isAuthenticated, isLoading: false, login: undefined, logout: undefined, refreshUser: () => undefined }
+}
+
+export function useWallet() {
+  const { balance, setBalance } = useFrontendAuth()
+  return { balance, currency: 'EGP', isLoading: false, refreshBalance: () => undefined, setBalance }
+}

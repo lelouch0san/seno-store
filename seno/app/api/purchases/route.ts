@@ -2,9 +2,10 @@ import { NextResponse } from 'next/server'
 import { storeProducts } from '@/lib/data'
 import { getGame } from '@/lib/data'
 import { getSenoBalanceCodeProduct } from '@/lib/data'
+import { createOrder, resolveOrderPricing, OrderInputError } from '@/lib/orders/service'
 
 export async function POST(request: Request) {
-  const body = await request.json().catch(() => null) as { productId?: unknown; packageId?: unknown; gameId?: unknown; accountData?: unknown; senoCode?: unknown; crypto?: unknown; socialMediaService?: unknown } | null
+  const body = await request.json().catch(() => null) as { productId?: unknown; packageId?: unknown; gameId?: unknown; accountData?: unknown; senoCode?: unknown; crypto?: unknown; socialMediaService?: unknown; quantity?: unknown } | null
   if (typeof body?.gameId === 'string') {
     const game = typeof body.gameId === 'string' ? getGame(body.gameId) : undefined
     const selectedPackage = game?.packages.find((item) => item.id === body.packageId)
@@ -17,10 +18,12 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: true, gameId: game.id, packageId: selectedPackage.id, amount: selectedPackage.price, currency: selectedPackage.currency })
   }
   if (body?.socialMediaService === true) {
-    const socialBody = body as { platform?: unknown; serviceId?: unknown; serviceName?: unknown; target?: unknown; targetType?: unknown; quantity?: unknown; unitPrice?: unknown; totalPrice?: unknown; currency?: unknown }
+    const socialBody = body as { platform?: unknown; serviceId?: unknown; serviceName?: unknown; target?: unknown; targetType?: unknown; quantity?: unknown }
     if (typeof socialBody.platform !== 'string' || typeof socialBody.serviceId !== 'string' || typeof socialBody.target !== 'string' || !socialBody.target.trim()) return NextResponse.json({ success: false, message: 'Required service data is missing' }, { status: 400 })
-    if (typeof socialBody.quantity !== 'number' || !Number.isInteger(socialBody.quantity) || socialBody.quantity <= 0 || typeof socialBody.unitPrice !== 'number' || socialBody.unitPrice <= 0) return NextResponse.json({ success: false, message: 'Invalid service quantity' }, { status: 400 })
-    return NextResponse.json({ success: true, orderId: `SNO-${crypto.randomUUID().slice(0, 8).toUpperCase()}`, orderType: 'social_media_service', platform: socialBody.platform, serviceId: socialBody.serviceId, serviceName: socialBody.serviceName, target: socialBody.target, targetType: socialBody.targetType, quantity: socialBody.quantity, unitPrice: socialBody.unitPrice, totalPrice: socialBody.totalPrice, currency: socialBody.currency, status: 'pending' })
+    try {
+      const order = createOrder({ serviceId: socialBody.serviceId, platform: socialBody.platform, target: socialBody.target, targetType: typeof socialBody.targetType === 'string' ? socialBody.targetType : undefined, quantity: socialBody.quantity as number })
+      return NextResponse.json({ success: true, orderId: order.id, orderType: 'social_media_service', platform: order.platform, serviceId: order.serviceId, serviceName: socialBody.serviceName, target: order.target, targetType: order.targetType, quantity: order.quantity, unitPrice: order.unitPrice, totalPrice: order.total, currency: order.currency, status: order.status })
+    } catch (error) { const isInputError = error instanceof OrderInputError; return NextResponse.json({ success: false, message: isInputError ? error.message : 'Unable to create order' }, { status: isInputError ? error.status : 400 }) }
   }
   if (body?.crypto === true) {
     const cryptoBody = body as { productId?: unknown; productName?: unknown; symbol?: unknown; network?: unknown; walletAddress?: unknown; amount?: unknown; quantity?: unknown; unitPrice?: unknown; totalPrice?: unknown }
@@ -48,5 +51,8 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: false, message: 'Product is currently unavailable' }, { status: 409 })
   }
 
-  return NextResponse.json({ success: true, orderId: `SNO-${crypto.randomUUID().slice(0, 8).toUpperCase()}`, productId: product.slug, packageId: digitalPackage?.id, amount: digitalPackage?.sellingPrice ?? product.price, currency: digitalPackage?.sellingCurrency ?? 'EGP', deliveryType: digitalPackage ? 'digital' : undefined, fulfillmentStatus: digitalPackage ? 'pending_delivery' : undefined })
+  try {
+    const order = createOrder({ productId: product.slug, packageId: typeof body?.packageId === 'string' ? body.packageId : undefined, quantity: typeof body?.quantity === 'number' ? body.quantity : undefined })
+    return NextResponse.json({ success: true, orderId: order.id, productId: order.productId, packageId: order.packageId, amount: order.total, currency: order.currency, deliveryType: digitalPackage ? 'digital' : undefined, fulfillmentStatus: digitalPackage ? 'pending_delivery' : undefined })
+  } catch (error) { const isInputError = error instanceof OrderInputError; return NextResponse.json({ success: false, message: isInputError ? error.message : 'Unable to create order' }, { status: isInputError ? error.status : 400 }) }
 }
