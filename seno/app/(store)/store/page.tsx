@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { ChevronDown, ChevronLeft, CircleUserRound, Gamepad2, Gift, MoreHorizontal, Search, Smartphone, Store, Wallet } from 'lucide-react'
 import { SenoLogo } from '@/components/branding/seno-logo'
 import { SidebarTrigger } from '@/components/global-sidebar'
+import { storeProducts } from '@/lib/store-products'
 
 const artwork = 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/file_0000000015f4820aad3a7637b56e3f84-WGC1XKchVlp1uO7orecqwKhbJ0S36M.png'
 
@@ -24,12 +25,8 @@ const banners = [
   { title: 'خدمات أخرى', desc: 'خدمات متنوعة تناسب احتياجاتك', count: '+20 خدمة', cta: 'استكشف الخدمات', href: '/store/services', image: '/images/category-services.png', alt: 'بنر الخدمات الرقمية والتحويلات والدفع', tone: 'border-red-600/80' },
 ]
 
-const products = [
-  { name: 'PUBG Mobile', detail: '660 UC', oldPrice: '800 EGP', price: '680 EGP', discount: 'خصم 15%', pos: 'object-[50%_65%]' },
-  { name: 'Free Fire', detail: '100 Diamonds', oldPrice: '140 EGP', price: '110 EGP', discount: 'خصم 21%', pos: 'object-[50%_67%]' },
-  { name: 'Mobile Legends', detail: '86 Diamonds', oldPrice: '125 EGP', price: '100 EGP', discount: 'خصم 20%', pos: 'object-[50%_72%]' },
-  { name: 'Sahra Chat', detail: '6,000 Masa', oldPrice: '300 EGP', price: '240 EGP', discount: 'خصم 20%', pos: 'object-[50%_76%]' },
-]
+const productVisuals: Record<string, string> = { 'pubg-mobile': 'object-[50%_65%]', 'free-fire': 'object-[50%_67%]', 'mobile-legends': 'object-[50%_72%]', 'sahra-chat': 'object-[50%_76%]' }
+const products = storeProducts.filter((product) => productVisuals[product.slug]).map((product) => ({ ...product, pos: productVisuals[product.slug] }))
 
 function Header({ onMenu }: { onMenu: () => void }) {
   return <header className="flex flex-col gap-6 pt-5 sm:pt-8"><div className="flex items-center justify-between gap-3" dir="ltr"><SenoLogo className="w-40" /><div className="flex items-center gap-2 sm:gap-5"><div className="hidden items-center gap-3 rounded-full border border-red-500/60 bg-white/[0.04] px-5 py-3 text-lg sm:flex"><Wallet className="text-amber-300" />500.00 EGP<ChevronDown className="size-4 text-amber-400" /></div><SidebarTrigger /><button aria-label="الحساب" className="grid size-11 place-items-center rounded-full border border-amber-400 bg-zinc-900"><CircleUserRound className="text-amber-200" /></button></div></div><label className="flex h-16 items-center gap-4 rounded-full border border-white/35 bg-white/[0.045] px-6 text-zinc-400" dir="rtl"><input aria-label="البحث" className="min-w-0 flex-1 bg-transparent text-base text-white outline-none placeholder:text-zinc-400 sm:text-lg" placeholder="إبحث عن لعبة أو تطبيق أو بطاقة رقمية..." /><Search className="size-7 shrink-0" /></label></header>
@@ -44,7 +41,7 @@ function CategoryBanner({ item }: { item: typeof banners[number] }) {
 }
 
 function ProductCard({ product, first }: { product: typeof products[number]; first?: boolean }) {
-  return <article className="min-w-[13rem] overflow-hidden rounded-2xl border border-amber-600/60 bg-zinc-950 shadow-[0_0_16px_rgba(255,190,0,.06)] transition hover:-translate-y-1 hover:border-amber-300/80 sm:min-w-0"><div className="relative h-40 overflow-hidden bg-zinc-900"><img src={artwork} alt={product.name} className={`size-full object-cover opacity-90 ${product.pos}`} />{first && <span className="absolute right-2 top-2 rounded-full bg-red-600 px-2 py-1 text-[10px] font-bold">الأكثر طلباً</span>}<span className="absolute left-2 top-2 rounded-full bg-amber-300 px-2 py-1 text-[10px] font-black text-black">{product.discount}</span></div><div className="p-3" dir="rtl"><h3 className="font-bold text-white">{product.name}</h3><p className="mt-1 text-sm text-zinc-200">{product.detail}</p><div className="mt-3 flex items-center justify-between gap-2"><div><del className="block text-xs text-zinc-500">{product.oldPrice}</del><strong className="text-lg text-amber-300">{product.price}</strong></div><Link href="/checkout" className="rounded-xl bg-gradient-to-l from-red-600 to-red-500 px-3 py-2 text-sm font-black text-white shadow-[0_0_16px_rgba(239,68,68,.35)] transition hover:from-amber-300 hover:to-amber-400 hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300">اشترِ الآن</Link></div></div></article>
+  return <article className="min-w-[13rem] overflow-hidden rounded-2xl border border-amber-600/60 bg-zinc-950 shadow-[0_0_16px_rgba(255,190,0,.06)] transition hover:-translate-y-1 hover:border-amber-300/80 sm:min-w-0"><div className="relative h-40 overflow-hidden bg-zinc-900"><img src={artwork} alt={product.name} className={`size-full object-cover opacity-90 ${product.pos}`} />{first && <span className="absolute right-2 top-2 rounded-full bg-red-600 px-2 py-1 text-[10px] font-bold">الأكثر طلباً</span>}<span className={`absolute left-2 top-2 rounded-full px-2 py-1 text-[10px] font-black ${product.isAvailable ? 'bg-emerald-600 text-white' : 'bg-red-950 text-red-200'}`}>{product.isAvailable ? 'متاح' : 'غير متوفر'}</span>{product.discountPercentage > 0 && <span className="absolute bottom-2 left-2 rounded-full bg-amber-300 px-2 py-1 text-[10px] font-black text-black">خصم {product.discountPercentage}%</span>}</div><div className="p-3" dir="rtl"><h3 className="font-bold text-white">{product.name}</h3><p className="mt-1 text-sm text-zinc-200">{product.detail}</p><div className="mt-3 flex items-center justify-between gap-2"><div>{product.discountPercentage > 0 && <del className="block text-xs text-zinc-500">{product.oldPrice} EGP</del>}<strong className="text-lg text-amber-300">{product.price} EGP</strong></div>{product.isAvailable ? <Link href={`/checkout?product=${product.slug}`} className="rounded-xl bg-gradient-to-l from-red-600 to-red-500 px-3 py-2 text-sm font-black text-white shadow-[0_0_16px_rgba(239,68,68,.35)] transition hover:from-amber-300 hover:to-amber-400 hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300">شراء الآن</Link> : <button type="button" disabled className="rounded-xl border border-red-500/50 bg-red-950/40 px-3 py-2 text-sm font-black text-red-200">غير متوفر حاليًا</button>}</div></div></article>
 }
 
 
