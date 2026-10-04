@@ -4,8 +4,8 @@ import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import { ArrowRight, Check, Coins, FileText, ShieldCheck, UserRound, Wallet, Zap } from 'lucide-react'
 import { SenoLogo } from '@/components/branding/seno-logo'
-import { storeProducts } from '@/lib/store-products'
-import { calculateProductQuantity, getVoiceChatProduct, validateAmount, validateUserId } from '@/lib/voice-chat-products'
+import { storeProducts } from '@/lib/data'
+import { calculateProductQuantity, getVoiceChatProduct, validateAmount, validateUserId } from '@/lib/data'
 
 export default function ProductDetails({ slug }: { slug: string }) {
   const product = getVoiceChatProduct(slug)

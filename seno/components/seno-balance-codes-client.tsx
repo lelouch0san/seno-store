@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { MessageCircle, X } from 'lucide-react'
-import { senoBalanceCodeProducts, type SenoBalanceCodeProduct } from '@/lib/seno-balance-codes'
+import { senoBalanceCodeProducts, type SenoBalanceCodeProduct } from '@/lib/data'
 
 const money = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' })
 

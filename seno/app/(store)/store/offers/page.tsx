@@ -6,7 +6,7 @@ import { Search, ShoppingBag } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { SidebarTrigger } from '@/components/global-sidebar'
 import { SenoLogo } from '@/components/branding/seno-logo'
-import { discountedProducts } from '@/lib/store-products'
+import { discountedProducts } from '@/lib/data'
 
 const artwork = 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/file_0000000015f4820aad3a7637b56e3f84-WGC1XKchVlp1uO7orecqwKhbJ0S36M.png'
 const categories = ['الكل', 'شحن الألعاب', 'تطبيقات الصوت', 'البطاقات الرقمية', 'خدمات أخرى'] as const

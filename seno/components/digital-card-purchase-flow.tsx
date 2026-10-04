@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { Check, FileText, LockKeyhole, Wallet } from 'lucide-react'
-import type { DigitalCardPackage, StoreProduct } from '@/lib/store-products'
+import type { DigitalCardPackage, StoreProduct } from '@/lib/data'
 
 const walletBalance = 500
 

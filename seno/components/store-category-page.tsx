@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { ArrowRight, Check, Clock3, Search, ShoppingBag, Wallet, X } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { SenoLogo } from '@/components/branding/seno-logo'
-import { storeProducts } from '@/lib/store-products'
+import { storeProducts } from '@/lib/data'
 import { DigitalGiftCard, type DigitalGiftCardData } from '@/components/digital-gift-card'
 
 export type StoreCategory = 'games' | 'apps' | 'gift-cards' | 'services' | 'shopping' | 'subscriptions' | 'crypto' | 'social' | 'withdraw'

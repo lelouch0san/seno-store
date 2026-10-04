@@ -1,5 +1,5 @@
 import { GameRechargePackageCard } from '@/components/game-recharge-package-card'
-import type { Game } from '@/lib/game-data'
+import type { Game } from '@/lib/data'
 
 export function GamePackageList({ game }: { game: Game }) {
   const packages = [...game.packages].sort((a, b) => a.sortOrder - b.sortOrder)

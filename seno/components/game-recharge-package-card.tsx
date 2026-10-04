@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { Check, ChevronLeft, LockKeyhole } from 'lucide-react'
-import type { GamePackage } from '@/lib/game-data'
+import type { GamePackage } from '@/lib/data'
 
 type Props = {
   gameId: string

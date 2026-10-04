@@ -1,7 +1,7 @@
 'use client'
 
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
-import { demoUser } from '@/lib/mock-data'
+import { demoUser } from '@/lib/data'
 import type { Profile } from '@/lib/mock-profile'
 
 type FrontendAuth = { user: Profile | null; isAuthenticated: boolean; balance: number; setBalance: (balance: number) => void; signIn: () => void; signOut: () => void }
@@ -26,4 +26,14 @@ export function useFrontendAuth() {
   const context = useContext(AuthContext)
   if (!context) throw new Error('useFrontendAuth must be used inside FrontendAuthProvider')
   return context
+}
+
+export function useAuth() {
+  const { user, isAuthenticated } = useFrontendAuth()
+  return { user, isAuthenticated, isLoading: false, login: undefined, logout: undefined, refreshUser: () => undefined }
+}
+
+export function useWallet() {
+  const { balance, setBalance } = useFrontendAuth()
+  return { balance, currency: 'EGP', isLoading: false, refreshBalance: () => undefined, setBalance }
 }
