@@ -27,5 +27,5 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: false, message: 'Product is currently unavailable' }, { status: 409 })
   }
 
-  return NextResponse.json({ success: true, productId: product.slug, packageId: digitalPackage?.id, amount: digitalPackage?.sellingPrice ?? product.price, currency: digitalPackage?.sellingCurrency ?? 'EGP', deliveryType: digitalPackage ? 'digital' : undefined })
+  return NextResponse.json({ success: true, orderId: `SNO-${crypto.randomUUID().slice(0, 8).toUpperCase()}`, productId: product.slug, packageId: digitalPackage?.id, amount: digitalPackage?.sellingPrice ?? product.price, currency: digitalPackage?.sellingCurrency ?? 'EGP', deliveryType: digitalPackage ? 'digital' : undefined, fulfillmentStatus: digitalPackage ? 'pending_delivery' : undefined })
 }
