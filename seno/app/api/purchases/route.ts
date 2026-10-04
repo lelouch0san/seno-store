@@ -4,7 +4,7 @@ import { getGame } from '@/lib/game-data'
 import { getSenoBalanceCodeProduct } from '@/lib/seno-balance-codes'
 
 export async function POST(request: Request) {
-  const body = await request.json().catch(() => null) as { productId?: unknown; packageId?: unknown; gameId?: unknown; accountData?: unknown } | null
+  const body = await request.json().catch(() => null) as { productId?: unknown; packageId?: unknown; gameId?: unknown; accountData?: unknown; senoCode?: unknown } | null
   if (typeof body?.gameId === 'string') {
     const game = typeof body.gameId === 'string' ? getGame(body.gameId) : undefined
     const selectedPackage = game?.packages.find((item) => item.id === body.packageId)
