@@ -6,6 +6,7 @@ import { toast } from 'sonner'
 import { AdminCard, AdminPageContainer, AdminPageHeader, AdminToolbar } from '@/components/admin/admin-components'
 import { BannerCard, BannerEditForm, HomepageStatusOverview, SectionCard, SectionEditForm } from '@/components/admin/homepage/homepage-components'
 import { getHomepageData, updateBanner, updateSection, type HomepageBanner, type HomepageSection } from '@/lib/data/homepage'
+import { getProducts } from '@/lib/data/products'
 
 export default function AdminHomepagePage() {
   const initialData = useMemo(() => getHomepageData(), [])
@@ -90,8 +91,8 @@ export default function AdminHomepagePage() {
 
           {tab === 'banners' && <div className="flex flex-col gap-4 p-4 sm:p-6"><div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between"><div><h2 className="text-lg font-bold text-white">إدارة البنرات</h2><p className="mt-1 text-xs text-white/40">تحكم في البنرات والعروض الظاهرة على الصفحة الرئيسية</p></div><button type="button" onClick={() => setEditingBanner({ id: '', nameAr: '', nameEn: '', image: '/images/home-banner-new.png', targetType: 'none', status: 'draft', sortOrder: data.banners.length + 1, visibility: true, altText: '', createdAt: '', updatedAt: '' })} className="flex items-center justify-center gap-2 rounded-xl bg-[#f5c542] px-4 py-2.5 text-xs font-black text-[#090909] hover:bg-[#ffd55d]"><Plus className="size-4" />إضافة بنر</button></div><AdminToolbar><input type="search" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="البحث في البنرات..." className="min-w-0 flex-1 rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-xs text-white outline-none placeholder:text-white/35 focus:border-[#f5c542]" /><select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} className="rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-xs text-white outline-none"><option value="all">كل الحالات</option><option value="active">نشط</option><option value="draft">مسودة</option><option value="scheduled">مجدول</option></select></AdminToolbar><div className="flex flex-col gap-3">{filteredBanners.map((banner) => <BannerCard key={banner.id} banner={banner} onEdit={() => setEditingBanner(banner)} onArchive={() => toast.success('تم أرشفة البنر')} />)}</div></div>}
 
-          {tab === 'featured' && <PlaceholderTab title="العناصر المميزة" description="حدد الأقسام والمنتجات التي تظهر في مناطق التمييز على الصفحة الرئيسية." action="اختيار العناصر" />}
-          {tab === 'promotions' && <PlaceholderTab title="العروض الترويجية" description="أدر مواضع العرض للحملات والعروض القادمة دون تعديل بيانات العروض نفسها." action="إضافة موضع ترويجي" />}
+          {tab === 'featured' && <FeaturedItems data={data} onChange={setData} />}
+          {tab === 'promotions' && <PromotionalItems data={data} onChange={setData} />}
           {tab === 'settings' && <DisplaySettings config={data.config} onChange={(config) => setData({ ...data, config })} />}
         </AdminCard>
       </div>
@@ -103,8 +104,17 @@ export default function AdminHomepagePage() {
   )
 }
 
-function PlaceholderTab({ title, description, action }: { title: string; description: string; action: string }) {
-  return <div className="flex min-h-[320px] flex-col items-center justify-center p-6 text-center"><Sparkles className="size-8 text-[#f5c542]" /><h2 className="mt-4 text-lg font-bold text-white">{title}</h2><p className="mt-2 max-w-md text-sm leading-7 text-white/45">{description}</p><button type="button" onClick={() => toast.info('سيتم تفعيل هذه الوظيفة في المرحلة التالية.')} className="mt-5 rounded-xl bg-white/10 px-4 py-2.5 text-xs font-bold text-white hover:bg-white/15">{action}</button></div>
+function FeaturedItems({ data, onChange }: { data: any; onChange: (data: any) => void }) {
+  const products = getProducts()
+  const [selected, setSelected] = useState<string[]>(data.featuredProductIds || products.slice(0, 3).map((product) => product.slug))
+  const toggle = (id: string) => setSelected((current) => current.includes(id) ? current.filter((item) => item !== id) : [...current, id])
+  return <div className="p-4 sm:p-6"><div className="flex items-center justify-between"><div><h2 className="text-lg font-bold text-white">العناصر المميزة</h2><p className="mt-1 text-xs text-white/40">اختر المنتجات الموجودة في الكتالوج ورتبها للواجهة الرئيسية</p></div><button type="button" onClick={() => { onChange({ ...data, featuredProductIds: selected }); toast.success('تم حفظ العناصر المميزة') }} className="rounded-xl bg-[#f5c542] px-4 py-2.5 text-xs font-black text-black">حفظ العناصر</button></div><div className="mt-5 grid gap-3 sm:grid-cols-2">{products.slice(0, 12).map((product) => <label key={product.slug} className={`flex cursor-pointer items-center gap-3 rounded-2xl border p-3 ${selected.includes(product.slug) ? 'border-[#f5c542]/60 bg-[#f5c542]/10' : 'border-white/10 bg-white/[.02]'}`}><input type="checkbox" checked={selected.includes(product.slug)} onChange={() => toggle(product.slug)} className="accent-[#f5c542]" /><div className="size-14 rounded-xl bg-white/10" /><div className="min-w-0"><p className="truncate text-sm font-bold text-white">{product.name}</p><p className="mt-1 text-[11px] text-white/40">{product.category} · {product.isAvailable ? 'متاح' : 'غير متاح'}</p></div></label>)}</div></div>
+}
+
+function PromotionalItems({ data, onChange }: { data: any; onChange: (data: any) => void }) {
+  const promotions = [{ id: 'promo-discounts', name: 'عروض وخصومات' }, { id: 'promo-gift-cards', name: 'عروض البطاقات الرقمية' }, { id: 'promo-games', name: 'عروض شحن الألعاب' }]
+  const [selected, setSelected] = useState<string[]>(data.promotionalIds || promotions.map((item) => item.id))
+  return <div className="p-4 sm:p-6"><div className="flex items-center justify-between"><div><h2 className="text-lg font-bold text-white">العروض الترويجية</h2><p className="mt-1 text-xs text-white/40">اختر مواضع العروض الموجودة دون تعديل بيانات العرض نفسها</p></div><button type="button" onClick={() => { onChange({ ...data, promotionalIds: selected }); toast.success('تم حفظ العروض الترويجية') }} className="rounded-xl bg-[#f5c542] px-4 py-2.5 text-xs font-black text-black">حفظ العروض</button></div><div className="mt-5 flex flex-col gap-3">{promotions.map((item) => <label key={item.id} className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[.02] p-4"><input type="checkbox" checked={selected.includes(item.id)} onChange={() => setSelected((current) => current.includes(item.id) ? current.filter((id) => id !== item.id) : [...current, item.id])} className="accent-[#f5c542]" /><span className="text-sm font-bold text-white">{item.name}</span><span className="ms-auto text-xs text-white/40">موضع ترويجي</span></label>)}</div></div>
 }
 
 function DisplaySettings({ config, onChange }: { config: any; onChange: (config: any) => void }) {

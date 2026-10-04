@@ -4,7 +4,9 @@ import type { VoiceChatProduct, ProductField } from '@/lib/voice-chat-products'
 import type { SenoBalanceCodeProduct } from '@/lib/seno-balance-codes'
 
 export type CategoryType = 'store' | 'account' | 'service'
-export type Category = { id: string; name: string; slug: string; type: CategoryType; order: number; active: boolean; image?: string; metadata?: Record<string, unknown> }
+export type CategoryPurpose = 'general' | 'offers' | 'custom'
+
+export type Category = { id: string; name: string; nameEn?: string; slug: string; type: CategoryType; purpose?: CategoryPurpose; description?: string; order: number; active: boolean; image?: string; metadata?: Record<string, unknown> }
 export type Product = StoreProduct
 export type ProductPackage = DigitalCardPackage | GamePackage
 export type { DigitalCardPackage, StoreProduct, Game, GamePackage, GameField, GameOrder, VoiceChatProduct, ProductField, SenoBalanceCodeProduct }

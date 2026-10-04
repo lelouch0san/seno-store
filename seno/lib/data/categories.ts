@@ -1,7 +1,7 @@
 import type { Category } from './types'
 
 export const categories: Category[] = [
-  { id: 'games', name: 'شحن الألعاب', slug: 'games', type: 'store', order: 1, active: true, image: '/images/category-games.png' },
+  { id: 'games', name: 'شحن الألعاب', nameEn: 'Game Top-ups', slug: 'games', type: 'store', purpose: 'general', order: 1, active: true, image: '/images/category-games.png' },
   { id: 'apps', name: 'شحن التطبيقات', slug: 'apps', type: 'store', order: 2, active: true, image: '/images/category-apps.png' },
   { id: 'gift-cards', name: 'البطاقات الرقمية', slug: 'gift-cards', type: 'store', order: 3, active: true, image: '/images/category-gift-cards.png' },
   { id: 'services', name: 'خدمات أخرى', slug: 'services', type: 'store', order: 4, active: true, image: '/images/category-services.png' },
