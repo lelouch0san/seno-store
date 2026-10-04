@@ -15,6 +15,9 @@ export type HomepageBanner = {
   endDate?: string
   visibility: boolean
   altText: string
+  placement?: 'main_homepage' | 'homepage_promo' | 'store' | 'category' | 'product'
+  targetPage?: 'homepage' | 'store' | 'category' | 'product'
+  targetId?: string
   createdAt: string
   updatedAt: string
 }
