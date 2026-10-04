@@ -8,11 +8,11 @@ import { storeProducts } from '@/lib/store-products'
 import { DigitalGiftCard, type DigitalGiftCardData } from '@/components/digital-gift-card'
 
 export type StoreCategory = 'games' | 'apps' | 'gift-cards' | 'services' | 'shopping' | 'subscriptions' | 'crypto' | 'social' | 'withdraw'
-type CatalogItem = { slug: string; name: string; description: string; detail: string; image: string; price: string; type: string; available?: boolean }
+export type CatalogItem = { slug: string; name: string; description: string; detail: string; image: string; price: string; type: string; available?: boolean }
 type PageMeta = { title: string; eyebrow: string; subtitle: string; search: string }
 
 const artwork = 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/file_0000000015f4820aad3a7637b56e3f84-WGC1XKchVlp1uO7orecqwKhbJ0S36M.png'
-const mockCatalog: Partial<Record<StoreCategory, CatalogItem[]>> = {
+export const mockCatalog: Partial<Record<StoreCategory, CatalogItem[]>> = {
   shopping: [
     { slug: 'steam-wallet', name: 'Steam Wallet', description: 'بطاقة رصيد لألعاب Steam', detail: 'بطاقة رقمية', price: '500 EGP', type: 'بطاقات ألعاب', image: '/images/category-shopping.png' },
     { slug: 'steam-game-key', name: 'Steam Game Key', description: 'مفتاح لعبة رقمي جاهز للتفعيل', detail: 'Game Key', price: '750 EGP', type: 'مفاتيح ألعاب', image: '/images/category-shopping.png' },

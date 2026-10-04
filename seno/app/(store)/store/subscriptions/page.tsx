@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { StoreCategoryPage } from '@/components/store-category-page'
+import { SubscriptionsStorePage } from '@/components/subscriptions-store-page'
 
 export const metadata: Metadata = { title: 'الاشتراكات | Seno Store', description: 'اشتراكات ترفيه وإنتاجية رقمية.' }
-export default function SubscriptionsPage() { return <StoreCategoryPage category="subscriptions" /> }
+export default function SubscriptionsPage() { return <SubscriptionsStorePage /> }
