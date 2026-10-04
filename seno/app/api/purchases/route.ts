@@ -4,7 +4,7 @@ import { getGame } from '@/lib/game-data'
 
 export async function POST(request: Request) {
   const body = await request.json().catch(() => null) as { productId?: unknown; packageId?: unknown; gameId?: unknown; accountData?: unknown } | null
-  if (typeof body?.gameId === 'string' || typeof body?.packageId === 'string') {
+  if (typeof body?.gameId === 'string') {
     const game = typeof body.gameId === 'string' ? getGame(body.gameId) : undefined
     const selectedPackage = game?.packages.find((item) => item.id === body.packageId)
     if (!game || !selectedPackage) return NextResponse.json({ success: false, message: 'Game or package not found' }, { status: 400 })
