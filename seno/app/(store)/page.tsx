@@ -21,11 +21,11 @@ const categories: Category[] = [
   { label: 'تطبيقات الصوت', href: '/store/apps', image: '/images/category-apps.png', accent: 'border-blue-500/80' },
   { label: 'البطاقات الرقمية', href: '/store/gift-cards', image: '/images/category-gift-cards.png', accent: 'border-fuchsia-500/80' },
   { label: 'خدمات أخرى', href: '/store/services', image: '/images/category-services.png', accent: 'border-amber-400/80' },
-  { label: 'سحب الأموال', description: 'خدمات سحب وتحويل الأموال', href: '/store/services?category=money-withdrawal', image: '/images/category-money-withdrawal.png', accent: 'border-emerald-400/80' },
-  { label: 'التسوق', description: 'منتجات وخدمات التسوق الرقمية', href: '/store/services?category=shopping', image: '/images/category-shopping.png', accent: 'border-orange-400/80' },
-  { label: 'الاشتراكات', description: 'اشتراكاتك المفضلة', href: '/store/services?category=subscriptions', image: '/images/category-subscriptions.png', accent: 'border-violet-400/80' },
-  { label: 'العملات الرقمية', description: 'شراء وبيع العملات الرقمية', href: '/store/services?category=crypto', image: '/images/category-crypto.png', accent: 'border-cyan-400/80' },
-  { label: 'لوت يوزرات', description: 'يوزرات ومنتجات رقمية', href: '/store/services?category=username-lots', image: '/images/category-username-lots.png', accent: 'border-rose-400/80' },
+  { label: 'سحب الأموال', description: 'خدمات سحب وتحويل الأموال', href: '/store/withdraw', image: '/images/category-money-withdrawal.png', accent: 'border-emerald-400/80' },
+  { label: 'التسوق', description: 'منتجات وخدمات التسوق الرقمية', href: '/store/shopping', image: '/images/category-shopping.png', accent: 'border-orange-400/80' },
+  { label: 'الاشتراكات', description: 'اشتراكاتك المفضلة', href: '/store/subscriptions', image: '/images/category-subscriptions.png', accent: 'border-violet-400/80' },
+  { label: 'العملات الرقمية', description: 'شراء وبيع العملات الرقمية', href: '/store/crypto', image: '/images/category-crypto.png', accent: 'border-cyan-400/80' },
+  { label: 'لوت يوزرات', description: 'يوزرات ومنتجات رقمية', href: '/store/social', image: '/images/category-username-lots.png', accent: 'border-rose-400/80' },
 ]
 
 const productVisuals: Record<string, { mark: string; tone: string }> = {
