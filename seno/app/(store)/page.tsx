@@ -9,8 +9,7 @@ import { SidebarTrigger } from '@/components/global-sidebar'
 import { storeProducts } from '@/lib/store-products'
 
 const heroSlides = [
-  { image: '/images/hero/hero-storefront.png', alt: 'شعار SENO STORE مع يد تحكم وسماعة وبطاقات رقمية', position: 'center 22%' },
-  { image: '/images/hero/hero-games.png', alt: 'ألعاب وشخصيات وبطاقات ألعاب من SENO STORE', position: 'center 22%' },
+  { image: '/images/home-banner-new.png', alt: 'بانر SENO STORE السينمائي مع الألعاب والبطاقات والخدمات الرقمية', position: 'center' },
 ]
 
 type Category = { label: string; description?: string; href: string; image: string; accent: string }
@@ -75,9 +74,9 @@ function Hero() {
   const goNext = () => goToSlide((activeSlide + 1) % heroSlides.length)
   const goPrevious = () => goToSlide((activeSlide - 1 + heroSlides.length) % heroSlides.length)
 
-  return <section className="relative aspect-[361/224] min-h-56 overflow-hidden rounded-3xl border border-red-500/80 bg-black shadow-[0_0_24px_rgba(239,68,68,.12)] sm:aspect-auto sm:min-h-64" dir="rtl" aria-roledescription="carousel" aria-label="عروض SENO STORE" tabIndex={0} onKeyDown={(event) => { if (event.key === 'ArrowLeft') goNext(); if (event.key === 'ArrowRight') goPrevious() }} onTouchStart={(event) => { touchStart.current = event.touches[0].clientX }} onTouchEnd={(event) => { if (touchStart.current === null) return; const delta = event.changedTouches[0].clientX - touchStart.current; if (Math.abs(delta) > 40) delta > 0 ? goPrevious() : goNext(); touchStart.current = null }}>
+  return <section className="relative aspect-[1536/491] w-full overflow-hidden rounded-3xl border border-red-500/80 bg-black shadow-[0_0_24px_rgba(239,68,68,.12)]" dir="rtl" aria-roledescription="carousel" aria-label="عروض SENO STORE" tabIndex={0} onKeyDown={(event) => { if (event.key === 'ArrowLeft') goNext(); if (event.key === 'ArrowRight') goPrevious() }} onTouchStart={(event) => { touchStart.current = event.touches[0].clientX }} onTouchEnd={(event) => { if (touchStart.current === null) return; const delta = event.changedTouches[0].clientX - touchStart.current; if (Math.abs(delta) > 40) delta > 0 ? goPrevious() : goNext(); touchStart.current = null }}>
     {heroSlides.map((slide, index) => <Image key={slide.image} src={slide.image} alt={slide.alt} fill priority={index === 0} sizes="(max-width: 640px) calc(100vw - 32px), 976px" className={`object-cover transition duration-1000 ease-out ${index === activeSlide ? 'scale-[1.02] opacity-100' : 'scale-100 opacity-0'}`} style={{ objectPosition: slide.position }} />)}
-    <div className="relative flex h-full min-h-56 items-end p-5 sm:min-h-64 sm:p-8">
+    <div className="relative flex h-full items-end p-3 sm:p-5">
       <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-2" role="group" aria-label="اختيار شريحة الهيرو">{heroSlides.map((slide, index) => <button key={slide.image} type="button" aria-label={`الانتقال إلى الشريحة ${index + 1}`} aria-current={index === activeSlide} onClick={() => goToSlide(index)} onFocus={() => setIsPaused(true)} className={`rounded-full transition-all ${index === activeSlide ? 'h-2.5 w-7 bg-amber-300' : 'size-2.5 bg-white/35 hover:bg-white/70'}`} />)}</div>
     </div>
   </section>
