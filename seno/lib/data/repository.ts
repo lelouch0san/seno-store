@@ -1,6 +1,7 @@
 import { getCategories, getCategoryById, getCategoryBySlug } from './categories'
 import { getProducts, getPackageEnabledProducts, getProductsByType, getProductById, getProductBySlug, getProductsByCategory, getFeaturedProducts, getAvailableProducts, searchProducts, getGames, getGameById, getSenoBalanceCodes } from './products'
 import { getPackagesByProduct, getPackageById, getAvailablePackagesByProduct } from './packages'
+export { getProductTypes, getActiveProductTypes, getProductTypeById, getServices as getCatalogServices, getActiveServices, getServiceById, pricingModelLabels, serviceTypeLabels } from './catalog'
 import { getProductPackages, getGamePackages, getAvailableProductPackages, getAvailableGamePackages } from './packages'
 import { getServices, getServiceBySlug, getSocialMediaServices, getSocialMediaServiceById } from './services'
 
