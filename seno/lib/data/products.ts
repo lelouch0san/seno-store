@@ -4,7 +4,9 @@ import { senoBalanceCodeProducts } from '@/lib/seno-balance-codes'
 import type { Product } from './types'
 
 export { storeProducts, discountedProducts, games, senoBalanceCodeProducts }
-export function getProducts() { return storeProducts }
+export function getProducts(options?: { supportsPackages?: boolean }) { return options?.supportsPackages === undefined ? storeProducts : storeProducts.filter((product) => product.supportsPackages === options.supportsPackages) }
+export function getPackageEnabledProducts() { return getProducts({ supportsPackages: true }) }
+export function getProductsByType(type: NonNullable<Product['productType']>) { return storeProducts.filter((product) => product.productType === type) }
 export function getProductBySlug(slug: string) { return storeProducts.find((product) => product.slug === slug) }
 export function getProductById(id: string) { return getProductBySlug(id) }
 export function getProductsByCategory(category: Product['category']) { return storeProducts.filter((product) => product.category === category) }
